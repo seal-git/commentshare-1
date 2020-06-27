@@ -2,18 +2,18 @@ from flask import render_template, url_for, flash, redirect, request
 from commentshare import app, db, bcrypt
 from commentshare.form import RegistrationForm, LoginForm
 from commentshare.models import User
-from flask_login import login_user, current_user, logout_user, login_required 
+from flask_login import login_user, current_user, logout_user, login_required
 
-@app.route('/')  
-def hello_world():  
+@app.route('/')
+def hello_world():
     return 'Hello, World!'
-@app.route('/home')  
+@app.route('/home')
 def home():
-    return render_template('home.html')      
-@app.route('/register', methods=['GET', 'POST'])  
-def register():  
-    form = RegistrationForm()  
-    if form.validate_on_submit():  
+    return render_template('home.html')
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
         # POSTリクエスト(登録時)
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
@@ -21,37 +21,42 @@ def register():
         db.session.commit()
         flash('Your account has been created! You are now able to log in', 'success')
         return redirect(url_for('login'))
-        flash('Account created for %s!' % form.username.data, 'success')  
-        return redirect(url_for('home'))  
-    # 初期表示時    
-    return render_template('register.html', title='Register', form=form)  
-  
+        flash('Account created for %s!' % form.username.data, 'success')
+        return redirect(url_for('home'))
+    # 初期表示時
+    return render_template('register.html', title='Register', form=form)
 
-@app.route('/login', methods=['GET', 'POST'])  
-def login():  
-    form = LoginForm()  
-    if form.validate_on_submit():  
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
         # POSTリクエスト(ログイン時)
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('account'))
-        if form.email.data == 'admin@blog.com' and form.password.data == 'password':  
-            flash('You have been logged in!', 'success')  
-            return redirect(url_for('home'))  
-        else:  
-            flash('Login Unsuccessful. Please check username and password', 'danger')  
+        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
     # 初期表示時
-    return render_template('login.html', title='Login', form=form)     
+    return render_template('login.html', title='Login', form=form)
 
-@app.route('/logout')  
-def logout():  
-    logout_user()  
-    return redirect(url_for('home'))  
-  
-  
-@app.route('/account')  
-@login_required  
-def account():  
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+
+@app.route('/account')
+@login_required
+def account():
     return render_template('account.html', title='Account page')
+
+@app.route('/read_pdf')
+def read_pdf():
+
+    return render_template('viewer.html', title='Account page')
