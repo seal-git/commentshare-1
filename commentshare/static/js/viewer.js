@@ -3491,7 +3491,7 @@ const defaultOptions = {
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE
   },
   defaultUrl: {
-    value: "compressed.tracemonkey-pldi-09.pdf",
+    value: "../static/naist_exam.pdf",
     kind: OptionKind.VIEWER
   },
   defaultZoomValue: {
@@ -3535,7 +3535,7 @@ const defaultOptions = {
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE
   },
   imageResourcesPath: {
-    value: "./images/",
+    value: "../static/images/",
     kind: OptionKind.VIEWER
   },
   maxCanvasPixels: {
@@ -3584,7 +3584,7 @@ const defaultOptions = {
     kind: OptionKind.API
   },
   cMapUrl: {
-    value: "../web/cmaps/",
+    value: "../static/cmaps/",
     kind: OptionKind.API
   },
   disableAutoFetch: {
@@ -3633,7 +3633,7 @@ const defaultOptions = {
     kind: OptionKind.WORKER
   },
   workerSrc: {
-    value: "../build/pdf.worker.js",
+    value: "../static/pdfjs-2.4.456-dist/build/pdf.worker.js",
     kind: OptionKind.WORKER
   }
 };
@@ -3729,7 +3729,7 @@ let pdfjsLib;
 if (typeof window !== "undefined" && window["pdfjs-dist/build/pdf"]) {
   pdfjsLib = window["pdfjs-dist/build/pdf"];
 } else {
-  pdfjsLib = require("../build/pdf.js");
+  pdfjsLib = require("../static/pdfjs-2.4.456-dist/build/pdf.js");
 }
 
 module.exports = pdfjsLib;

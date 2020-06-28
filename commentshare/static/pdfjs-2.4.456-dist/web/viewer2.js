@@ -3491,7 +3491,8 @@ const defaultOptions = {
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE
   },
   defaultUrl: {
-    value: "../static/pdfjs-2.4.456-dist/web/compressed.tracemonkey-pldi-09.pdf",
+    // value: "../static/pdfjs-2.4.456-dist/web/compressed.tracemonkey-pldi-09.pdf",
+    value: "naist_exam.pdf",
     kind: OptionKind.VIEWER
   },
   defaultZoomValue: {
@@ -3633,7 +3634,7 @@ const defaultOptions = {
     kind: OptionKind.WORKER
   },
   workerSrc: {
-    value: "../static/pdfjs-2.4.456-dist/build/pdf.worker.js",
+    value: "../build/pdf.worker.js",
     kind: OptionKind.WORKER
   }
 };

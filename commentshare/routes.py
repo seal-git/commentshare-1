@@ -58,5 +58,4 @@ def account():
 
 @app.route('/read_pdf')
 def read_pdf():
-
-    return render_template('viewer.html', title='Account page')
+    return render_template('viewer.html', title='pdf page')

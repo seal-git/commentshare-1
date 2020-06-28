@@ -29,15 +29,12 @@ See https://github.com/adobe-type-tools/cmap-resources
     <title>PDF.js viewer</title>
 
 
-    <link rel="stylesheet" href="../static/pdfjs-2.4.456-dist/web/viewer.css">
+    <link rel="stylesheet" href="../static/css/viewer.css">
 
 
 <!-- This snippet is used in production (included from viewer.html) -->
-<link rel="resource" type="application/l10n" href="../static/pdfjs-2.4.456-dist/web/locale/locale.properties">
-<script src="../static/pdfjs-2.4.456-dist/build/pdf.js"></script>
+<link rel="resource" type="application/l10n" href="../static/locale/locale.properties">
 
-
-    <script src="../static/pdfjs-2.4.456-dist/web/viewer2.js"></script>
 
   </head>
 
@@ -389,6 +386,10 @@ See https://github.com/adobe-type-tools/cmap-resources
 
     </div> <!-- outerContainer -->
     <div id="printContainer"></div>
+
+    <script src="../static/pdfjs-2.4.456-dist/build/pdf.js"></script>
+    <script src="../static/js/viewer.js"></script>
+    <script src="../static/js/comment.js"></script>
   </body>
 </html>
 
