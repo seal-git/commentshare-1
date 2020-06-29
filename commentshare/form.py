@@ -23,7 +23,7 @@ class RegistrationForm(FlaskForm):
         #同一のメールアドレスが存在していないか
         email = User.query.filter_by(email=email.data).first()  
         if email:  
-            raise ValidationError('そのユーザー名は登録されています。別のユーザー名をお試しください')  
+            raise ValidationError('そのmail addressは登録されています。別のaddressをお試しください')  
             
 ########################################################################
   
