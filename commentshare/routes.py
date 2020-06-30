@@ -3,6 +3,7 @@ from commentshare import app, db, bcrypt
 from commentshare.form import RegistrationForm, LoginForm
 from commentshare.models import User
 from flask_login import login_user, current_user, logout_user, login_required
+import os
 
 @app.route('/')
 def hello_world():
@@ -58,4 +59,16 @@ def account():
 
 @app.route('/read_pdf')
 def read_pdf():
+    return render_template('viewer.html', title='pdf page')
+
+@app.route('/add_comment', methods=['POST','GET'])
+def add_comment():
+    print(os.getcwd())
+    if request.method == 'POST':
+        result = request.get_json(force=True)
+        print(result)
+        filename = './commentshare/static/comments.txt'
+        with open(filename, mode='a') as f:
+            f.write(str(result)+"\n")
+
     return render_template('viewer.html', title='pdf page')
