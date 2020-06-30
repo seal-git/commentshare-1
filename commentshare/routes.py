@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request
 from commentshare import app, db, bcrypt
 from commentshare.form import RegistrationForm, LoginForm
-<<<<<<< HEAD
+
 from commentshare.models import User,PDF
 import os
 from flask_login import login_user, current_user, logout_user, login_required
@@ -28,11 +28,10 @@ def allowed_pdf(filename):
     else:
         return False
 
-=======
+
 from commentshare.models import User
 from flask_login import login_user, current_user, logout_user, login_required
 
->>>>>>> 0cea5170f2c21c360167e20376d9708e3983ca48
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
@@ -83,7 +82,7 @@ def logout():
 @app.route('/account')
 @login_required
 def account():
-<<<<<<< HEAD
+
     pdfs = db.session.query(PDF).filter_by(user_id=current_user.id).all()
     #print(type(pdfs))
     #print(pdfs[0].pdfname)
@@ -107,8 +106,8 @@ def upload():
             return redirect(request.url)
         if file and allowed_pdf(file.filename):
             pdf = PDF(pdfname=file.filename, user_id=current_user.id)
-            print(pdf)
-            print(os.path.join(UPLOAD_FOLDER,file.filename))
+            #print(pdf)
+            #print(os.path.join(UPLOAD_FOLDER,file.filename))
             db.session.add(pdf)
             db.session.commit()
             file.save(os.path.join(UPLOAD_FOLDER,(str(pdf.id)+'.pdf')))
@@ -116,10 +115,9 @@ def upload():
             flash('アップロードに成功しました')
             return redirect(request.url)
     return  render_template('pdf_uploads.html', title='Uploads page')
-=======
+
     return render_template('account.html', title='Account page')
 
 @app.route('/read_pdf')
 def read_pdf():
     return render_template('viewer.html', title='pdf page')
->>>>>>> 0cea5170f2c21c360167e20376d9708e3983ca48
