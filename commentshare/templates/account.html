@@ -3,14 +3,29 @@
  <center><h2>{{ current_user.username }}さん、こんにちわ</h2></center>  
     <ul>
     {% for pdf in pdfs %}
-        <li><a href= 'viewer.js'id={{pdf.id}}.pdf><font color="#006600">
+        <li><a href=# class='pdf-list' pdf-id={{pdf.id}}.pdf><font color="#006600">
          {%print(pdf.pdfname)%}
         </font></a></li>
     {% endfor %}
     <ul>
 <script>
-var pdf_id = $('li').attr('id');
-window.location.href = 'vier';;
+const URLJoin = (...args) =>
+  args
+    .join('/')
+    .replace(/[\/]+/g, '/')
+    .replace(/^(.+):\//, '$1://')
+    .replace(/^file:/, 'file:/')
+    .replace(/\/(\?|&|#[^!])/g, '$1')
+    .replace(/\?/g, '&')
+    .replace('&', '?');
+
+
+window.onload = $('.pdf-list').on('click', function(){
+    var id =  $(this).attr("pdf-id");
+    
+    window.location.href = URLJoin('/read_pdf/',id)
+    
+});
 </script>
 
 

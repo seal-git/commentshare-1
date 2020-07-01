@@ -118,6 +118,10 @@ def upload():
 
     return render_template('account.html', title='Account page')
 
-@app.route('/read_pdf')
-def read_pdf():
-    return render_template('viewer.html', title='pdf page')
+@app.route('/read_pdf/<name>')
+def read_pdf(name=None):
+    name=name
+    read_url='viewer.html'+'?file='+'../../pdf_uploads/'+str(name)
+
+    return render_template(read_url, title='pdf page')
+
