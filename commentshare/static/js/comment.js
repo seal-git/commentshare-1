@@ -29,40 +29,77 @@ window.onclick = function() {
 	var a = document.getElementsByClassName("textLayer");
 	var Selected = this.getText();
 	var o = document.getElementById("comment-form");
-	if(o){
-		document.getElementById("viewerContainer").removeChild(o);
-	}
-	if(Selected!=0){
 
+	// var a = document.getElementsByClassName("textLayer");
+	// var Selected = this.getText();
+	// var o = document.getElementById("comment-form");
+	// if(o){
+	// 	var isProcess = false;
+	// 	o.on({
+	// 		"keypress": function(e){
+	// 			if(!e.ctrlKey&&!e.altKey){
+	// 				isProcessed = true;
+	// 			}
+	// 		}
+	// 	})
+	// 	if(isProcess){
+	// 	document.getElementById("viewerContainer").removeChild(o);
+	// }
+	if(Selected!=0){
+		var o = document.getElementById("comment-form");
+		if(o){
+			document.getElementById("viewerContainer").removeChild(o);
+		}
 		console.log(a);
 		console.log(a.length);
 		var clientRect = Selected.focusNode.parentElement.getBoundingClientRect();
 		console.log(clientRect.left, clientRect.top);
+		console.log(Selected.anchorNode);
 		form = document.createElement("form");
-		// form.setAttribute("class","form-inline");
 		form.setAttribute("id","comment-form");
 		form.style.position = "fixed";
 		form.style.top = (clientRect.top-20)+"px";
 		form.style.left = (clientRect.left+20)+"px";
 		document.getElementById("viewerContainer").appendChild(form);
-		d = document.createElement("div");
-		d.setAttribute("id","form-group1");
-		d.setAttribute("class","form-group");
-		document.getElementById("comment-form").appendChild(d);
+		// d = document.createElement("div");
+		// d.setAttribute("id","form-group1");
+		// d.setAttribute("class","form-group");
+		// document.getElementById("comment-form").appendChild(d);
 		o = document.createElement("input");
-		o.setAttribute("type","email");
+		o.setAttribute("type","text");
 		o.setAttribute("id","comment-input");
-		o.setAttribute("class","form-control");
-		document.getElementById("form-group1").appendChild(o);
-		p = document.createElement("button");
+		document.getElementById("comment-form").appendChild(o);
+
+		p = document.createElement("input");
 		p.setAttribute("type","submit");
 		p.setAttribute("value", "送信")
-		p.setAttribute("class","btn btn-default");
 		p.setAttribute("id","comment-submit");
-		p.style = "WIDTH:100px; HEIGHT:20px"
-		document.getElementById("form-group1").appendChild(p);
+		p.style = "WIDTH:50px; HEIGHT:20px"
+		document.getElementById("comment-form").appendChild(p);
+
+		form.onsubmit=function(){
+			// alert(o.value+"\n"+clientRect.left+","+ clientRect.top);
+			// alert(clientRect.left+","+ clientRect.top);
+			var data = [
+				{"name" : "test_user"},
+				{"comment" : o.value},
+				// {"node" : Selected},
+				{"time" : Date.now()}
+			]
+			var json_data = JSON.stringify(data);
+			const xhr = new XMLHttpRequest();
+			xhr.open("POST", "/add_comment");
+			xhr.setRequestHeader("Content-Type", "application/json")
+			xhr.send(json_data);
+			// console.log(data["node"]);
+			o.value = "";
+			document.getElementById("viewerContainer").removeChild(form);
+		}
+
+
 
 	}
 }
+
 
 
