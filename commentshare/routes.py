@@ -112,7 +112,6 @@ def upload():
 
 
 
-<<<<<<< HEAD
 @app.route('/read_pdf/<name>')
 def read_pdf(name=None):
     name=name
