@@ -1,9 +1,33 @@
 from flask import render_template, url_for, flash, redirect, request
 from commentshare import app, db, bcrypt
 from commentshare.form import RegistrationForm, LoginForm
-from commentshare.models import User
-from flask_login import login_user, current_user, logout_user, login_required
+from commentshare.models import User,PDF
 import os
+from flask_login import login_user, current_user, logout_user, login_required
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+UPLOAD_FOLDER = './commentshare/pdf_uploads'
+app.config["ALLOWED_EXTENSIONS"] = "PDF"
+engine = create_engine('sqlite:///commentshare.db')
+Session = sessionmaker(bind=engine)
+session = Session()
+
+
+def allowed_pdf(filename):
+
+    if not "." in filename:
+        return False
+
+    extention = filename.rsplit(".", 1)[1]
+
+    if extention.upper() in app.config["ALLOWED_EXTENSIONS"]:
+        return True
+    else:
+        return False
+
+
+
 
 @app.route('/')
 def hello_world():
@@ -55,11 +79,45 @@ def logout():
 @app.route('/account')
 @login_required
 def account():
-    return render_template('account.html', title='Account page')
+    pdfs = db.session.query(PDF).filter_by(user_id=current_user.id).all()
+    #print(type(pdfs))
+    #print(pdfs[0].pdfname)
+    num_pdfs=len(pdfs)
+    return render_template('account.html',title='Account page',pdfs=pdfs)
 
-@app.route('/read_pdf')
-def read_pdf():
-    return render_template('viewer.html', title='pdf page')
+@app.route('/pdf_uploads',methods=['GET', 'POST'])
+@login_required
+def upload():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('ファイルがありません')
+            return redirect(request.url)
+        file = request.files['file']
+        print(file)
+        print(file.filename)
+        if file.filename == '':
+            flash('ファイルがありません,')
+            return redirect(request.url)
+        if file and allowed_pdf(file.filename):
+            pdf = PDF(pdfname=file.filename, user_id=current_user.id)
+            #print(pdf)
+            #print(os.path.join(UPLOAD_FOLDER,file.filename))
+            db.session.add(pdf)
+            db.session.commit()
+            file.save(os.path.join(UPLOAD_FOLDER,(str(pdf.id)+'.pdf')))
+            print(pdf)
+            flash('アップロードに成功しました')
+            return redirect(request.url)
+    return  render_template('pdf_uploads.html', title='Uploads page')
+
+
+
+@app.route('/read_pdf/<name>')
+def read_pdf(name=None):
+    name=name
+    read_url='viewer.html'+'?file='+'../../pdf_uploads/'+str(name)
+
+    return render_template(read_url, title='pdf page')
 
 @app.route('/add_comment', methods=['POST','GET'])
 def add_comment():
