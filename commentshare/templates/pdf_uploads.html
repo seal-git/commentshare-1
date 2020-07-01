@@ -1,12 +1,11 @@
 {% extends "layout.html" %}  
 {% block content %}  
-<body>
-    <h1>
+    <h2>
         PDFファイルをアップロードしてください。
-    </h1>
+    </h2>
     <form method = post enctype = multipart/form-data>
-    <p><input type=file name = file>
-    <input type = submit value = Upload>
+    <input type=file name =file>
+    <button type="submit" class="hoge">UPLOAD</button>
     </form>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -15,5 +14,14 @@
       {% endfor %}
     {% endif %}
   {% endwith %}
-</body>
+<style>
+  .file {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    padding: 1em;
+    border: 1px solid #dd0000;
+    background: #dd0000;
+    
+</style>
 {% endblock content %}
