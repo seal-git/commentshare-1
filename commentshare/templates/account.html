@@ -23,7 +23,7 @@ const URLJoin = (...args) =>
 window.onload = $('.pdf-list').on('click', function(){
     var id =  $(this).attr("pdf-id");
     
-    window.location.href = URLJoin('/read_pdf/',id)
+    window.location.href = URLJoin('/read_pdf','?file=../static/pdf_uploads/',id)
     
 });
 </script>
