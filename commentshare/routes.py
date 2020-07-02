@@ -7,12 +7,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-<<<<<<< HEAD
-UPLOAD_FOLDER = './commentshare/pdf_uploads'
-=======
 
 UPLOAD_FOLDER = './commentshare/static/pdf_uploads'
->>>>>>> test_branch
 app.config["ALLOWED_EXTENSIONS"] = "PDF"
 engine = create_engine('sqlite:///commentshare.db')
 Session = sessionmaker(bind=engine)
