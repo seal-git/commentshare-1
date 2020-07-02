@@ -9,7 +9,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 
-UPLOAD_FOLDER = './commentshare/pdf_uploads'
+UPLOAD_FOLDER = './commentshare/static/pdf_uploads'
 app.config["ALLOWED_EXTENSIONS"] = "PDF"
 engine = create_engine('sqlite:///commentshare.db')
 Session = sessionmaker(bind=engine)
@@ -86,7 +86,6 @@ def account():
     pdfs = db.session.query(PDF).filter_by(user_id=current_user.id).all()
     #print(type(pdfs))
     #print(pdfs[0].pdfname)
-    num_pdfs=len(pdfs)
     return render_template('account.html',title='Account page',pdfs=pdfs)
 
 
@@ -114,14 +113,9 @@ def upload():
             print(pdf)
             flash('アップロードに成功しました')
             return redirect(request.url)
-    return  render_template('pdf_uploads.html', title='Uploads page')
+    return render_template('pdf_uploads.html', title='Account page')
 
-    return render_template('account.html', title='Account page')
 
-@app.route('/read_pdf/<name>')
-def read_pdf(name=None):
-    name=name
-    read_url='viewer.html'+'?file='+'../../pdf_uploads/'+str(name)
-
-    return render_template(read_url, title='pdf page')
-
+@app.route('/read_pdf')
+def read_pdf():
+    return render_template('viewer.html', title='pdf page')
