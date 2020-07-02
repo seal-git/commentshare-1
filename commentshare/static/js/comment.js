@@ -3,18 +3,20 @@
  */
 
 
+//なにしてるのかよく分からん。文法的に正しいのか？
+//window.onload = function(){
+//
+//	document.getElementsByTagName.onselect = function(){
+//		console.log('2');
+//		getText();
+//	};
+//}
 
-window.onload = function(){
-
-	document.getElementsByTagName.onselect = function(){
-		console.log('2');
-		getText();
-	};
-}
 function getText(){
-	var SelectedText;
+	//選択範囲のノードを返す
+	//選択範囲がなかったり広すぎたら0を返す
 	var Selected = window.getSelection()
-	SelectedText = Selected.toString();
+	var SelectedText = Selected.toString();
 	if(SelectedText.length>0&&SelectedText.length<15){
 		console.log(SelectedText);
 		// console.log(Selected);
@@ -26,46 +28,51 @@ function getText(){
 
 
 window.onclick = function() {
-	var a = document.getElementsByClassName("textLayer");
 	var Selected = this.getText();
-	var o = document.getElementById("comment-form");
 
-	// var a = document.getElementsByClassName("textLayer");
-	// var Selected = this.getText();
-	// var o = document.getElementById("comment-form");
-	// if(o){
-	// 	var isProcess = false;
-	// 	o.on({
-	// 		"keypress": function(e){
-	// 			if(!e.ctrlKey&&!e.altKey){
-	// 				isProcessed = true;
-	// 			}
-	// 		}
-	// 	})
-	// 	if(isProcess){
-	// 	document.getElementById("viewerContainer").removeChild(o);
-	// }
-	if(Selected!=0){
+	if(Selected==0){
+		//選択されてない状態でフォーム以外がクリックされたらフォームが消える
+
+		var hover = $(":hover");	//現在カーソルがかかっている要素を返す
+		var flag = true;	//カーソルがフォームにかかっていなかったらtrue
+		this.Object.keys(hover).forEach(function(key){	//連想配列をforEachするときの書き方(途中でbreakはできない)
+			// console.log(hover[key])
+			if(hover[key].id == "comment-form"){
+				flag = false;
+			}
+		});
+		//カーソルがフォームにかかっていなかったらフォームを消す
+		if(flag){
+			var o = document.getElementById("comment-form");
+			if(o){
+				document.getElementById("viewerContainer").removeChild(o);
+			}
+		}
+	}else{
+		//既にフォームがあったら削除する
 		var o = document.getElementById("comment-form");
 		if(o){
 			document.getElementById("viewerContainer").removeChild(o);
 		}
-		console.log(a);
-		console.log(a.length);
 		var clientRect = Selected.focusNode.parentElement.getBoundingClientRect();
 		console.log(clientRect.left, clientRect.top);
 		console.log(Selected.anchorNode);
+
+		//入力フォームフィールドを作成してviewerContainerの下に入れる
 		form = document.createElement("form");
 		form.setAttribute("id","comment-form");
 		form.style.position = "fixed";
 		form.style.top = (clientRect.top-20)+"px";
 		form.style.left = (clientRect.left+20)+"px";
 		document.getElementById("viewerContainer").appendChild(form);
+
+		//入力フォームを作成してformの下に入れる
 		o = document.createElement("input");
 		o.setAttribute("type","text");
 		o.setAttribute("id","comment-input");
 		document.getElementById("comment-form").appendChild(o);
 
+		//送信ボタンを作成してformの下に入れる
 		p = document.createElement("input");
 		p.setAttribute("type","submit");
 		p.setAttribute("value", "送信")
@@ -73,6 +80,7 @@ window.onclick = function() {
 		p.style = "WIDTH:50px; HEIGHT:20px"
 		document.getElementById("comment-form").appendChild(p);
 
+		//コメント情報をjsonにしてサーバに送信する
 		form.onsubmit=function(){
 			// alert(o.value+"\n"+clientRect.left+","+ clientRect.top);
 			// alert(clientRect.left+","+ clientRect.top);
