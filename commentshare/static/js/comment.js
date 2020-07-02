@@ -61,10 +61,6 @@ window.onclick = function() {
 		form.style.top = (clientRect.top-20)+"px";
 		form.style.left = (clientRect.left+20)+"px";
 		document.getElementById("viewerContainer").appendChild(form);
-		// d = document.createElement("div");
-		// d.setAttribute("id","form-group1");
-		// d.setAttribute("class","form-group");
-		// document.getElementById("comment-form").appendChild(d);
 		o = document.createElement("input");
 		o.setAttribute("type","text");
 		o.setAttribute("id","comment-input");

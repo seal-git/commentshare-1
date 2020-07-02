@@ -115,9 +115,10 @@ def upload():
 @app.route('/read_pdf/<name>')
 def read_pdf(name=None):
     name=name
-    read_url='viewer.html'+'?file='+'../../pdf_uploads/'+str(name)
-
-    return render_template(read_url, title='pdf page')
+    read_url='viewer.html'+'?file='+'./commentshare/pdf_uploads/'+str(name)
+    print(os.getcwd())
+#     return render_template(read_url, title='pdf page')
+    return render_template("viewer.html", title='pdf page')
 
 @app.route('/add_comment', methods=['POST','GET'])
 def add_comment():
