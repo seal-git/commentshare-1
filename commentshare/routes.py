@@ -123,6 +123,18 @@ def add_comment():
             f.write(str(result)+"\n")
 
 
+@app.route('/search', methods=['POST','GET'])
+@login_required
+def search():
+    if request.method=='POST':
+        keyword=str(request.form['keyword'])
+        search_word=keyword
+        keyword='%'+keyword+'%'
+        pdfs = db.session.query(PDF).filter(PDF.pdfname.like(keyword)).all()
+        return render_template('search_result.html', title='search_result',pdfs=pdfs,search_word=search_word)
+    return render_template('search.html', title='search_page')
+
+
 
 @app.route('/read_pdf')
 def read_pdf():
