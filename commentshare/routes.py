@@ -144,3 +144,15 @@ def search():
 @app.route('/read_pdf')
 def read_pdf():
     return render_template('viewer.html', title='pdf page')
+
+@app.route('/add_comment', methods=['POST','GET'])
+def add_comment():
+    print(os.getcwd())
+    if request.method == 'POST':
+        result = request.get_json(force=True)
+        print(result)
+        filename = './commentshare/static/comments.txt'
+        with open(filename, mode='a') as f:
+            f.write(str(result)+"\n")
+
+    return render_template('viewer.html', title='pdf page')
