@@ -2,14 +2,17 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
 <div class='search_box'>
+    <center>
     <h2>SEARCH</h2>
-    <p>検索したいワードを入れてくSEARCHを選択してださい。<br>全て見たい場合はALLを選択してください。</p>
+    <p>検索したいワードを入れてくSEARCHを選択してださい。</p>
     <form method = "post">
         <div class="form-group"　style="text-align:center;">
             <label>Keyword</label>
             <input type="text" name="keyword" class="form-control w-50">
         </div>
     <button type="submit" class="btn btn-outline-primary">Search</button>
+    </form>
+</center>
 </div>
 </form>
 {% endblock %}

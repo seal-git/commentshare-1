@@ -82,7 +82,6 @@ def logout():
 @app.route('/account')
 @login_required
 def account():
-
     pdfs = db.session.query(PDF).filter_by(user_id=current_user.id).all()
     #print(type(pdfs))
     #print(pdfs[0].pdfname)
@@ -147,3 +146,15 @@ def add_comment():
         with open(filename, mode='a') as f:
             f.write(str(result)+"\n")
     return render_template('viewer.html', title='pdf page')
+
+
+@app.route('/mypage',methods=['POST','GET'])
+def mypage():
+    user = db.session.query(User).filter_by(id=current_user.id).one()
+    if request.method == 'POST':
+        profile=request.form['profile']
+        user = db.session.query(User).filter_by(id=current_user.id).one()
+        user.profile=profile
+        db.session.commit()
+        return render_template('mypage.html', title='Mypage',user=user)
+    return render_template('mypage.html', title='Mypage',user=user)

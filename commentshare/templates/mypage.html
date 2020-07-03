@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<center>
+<h2>{{user.username}}さんのページ</h2>
+<p>ユーサー名 ：{{user.username}}</p>
+<p>email    ：{{user.email}}</p>
+<form method='post'>
+    <div>
+    <textarea name="profile" rows="10" cols="60" 　 maxlength="390">{{user.profile}}</textarea>>
+    </div>
+    <button type="submit" disabled  id='sub' class="btn btn-outline-primary">プロフィールを更新する</button>
+</form>
+</center>
+
+<style>
+h2{
+    margin-bottom: 1em;
+}
+p{
+    font-size: 20pt;
+}
+</style>
+<script>
+$(function() {
+ 
+    //keyup()でキーを入力するたびに発動
+    $('textarea').keyup(function() {
+        $(sub).prop("disabled", false);
+   
+      
+   
+    
+    });
+  });
+</script>
+{% endblock %}
+    

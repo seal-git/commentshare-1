@@ -30,7 +30,8 @@
                         {% if current_user.is_authenticated %}  
                             <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a> 
                             <a class="nav-item nav-link" href="{{ url_for('upload') }}">Uploads</a>  
-                            <a class="nav-item nav-link" href="{{ url_for('search') }}">Search</a>  
+                            <a class="nav-item nav-link" href="{{ url_for('search') }}">Search</a>
+                            <a class="nav-item nav-link" href="{{ url_for('mypage') }}">Mypage</a>    
                         {% endif %}  
                     </div>  
                     <!-- Navbar Right Side -->  
