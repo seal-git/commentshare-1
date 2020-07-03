@@ -115,7 +115,6 @@ def upload():
             return redirect(request.url)
     return render_template('pdf_uploads.html', title='Account page')
 
-<<<<<<< HEAD
 
 
 @app.route('/add_comment', methods=['POST','GET'])
@@ -141,8 +140,6 @@ def search():
     return render_template('search.html', title='search_page')
 
 
-=======
->>>>>>> 93b0b31cef38f2b5a3a2b68afa34fdd0e343a0c8
 
 @app.route('/read_pdf')
 def read_pdf():
