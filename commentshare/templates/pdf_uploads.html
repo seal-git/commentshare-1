@@ -1,5 +1,6 @@
 {% extends "layout.html" %}  
 {% block content %}  
+<div class="pdf_uploads">
     <h2>
         PDFファイルをアップロードしてください。
     </h2>
@@ -14,6 +15,7 @@
       {% endfor %}
     {% endif %}
   {% endwith %}
+</div>
 <style>
   .file {
     display: inline-block;
@@ -22,6 +24,10 @@
     padding: 1em;
     border: 1px solid #dd0000;
     background: #dd0000;
-    
+  }
+
+  .pdf_uploads{
+    text-align: center;
+  }
 </style>
 {% endblock content %}
