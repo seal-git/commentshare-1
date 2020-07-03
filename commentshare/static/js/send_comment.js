@@ -108,8 +108,8 @@ window.onclick = function() {
 						xhr.open("POST", "/add_comment");
 						xhr.setRequestHeader("Content-Type", "application/json")
 						xhr.send(json_data);
-						inputForm.value = "";
-						document.getElementById("viewerContainer").removeChild(form);
+						// inputForm.value = "";
+						// document.getElementById("viewerContainer").removeChild(form);
 						resolve();
 					}, 350);
 				});

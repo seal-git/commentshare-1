@@ -95,43 +95,49 @@ a.onmousemove =function(){	//viwer要素上でmousemoveしたら発火
 }
 function OnButtonClick(e){
 	console.log("e", e.target.parentElement.parentElement.dataset.page)
-	var page = Number(e.target.parentElement.parentElement.dataset.page);
-	var top = Number(e.target.parentElement.parentElement.dataset.top);
-	var left = Number(e.target.parentElement.parentElement.dataset.left);
-	console.log({"page":page, "left":left, "top":top})
-	console.log(document.getElementById("reply-input").value)
-	var data = {
-		"name" : "test_user",
-		"time" : Date.now(),
-		"value" : document.getElementById("reply-input").value,
-		"span-page" : page,
-		"span-left" : left,
-		"span-top" : top
+	var value = document.getElementById("reply-input").value
+	console.log(value);
+	if(value.length == 0){
+		alert("コメントが入力されていません");
+		return(-1);
+	}else{
+		var page = Number(e.target.parentElement.parentElement.dataset.page);
+		var top = Number(e.target.parentElement.parentElement.dataset.top);
+		var left = Number(e.target.parentElement.parentElement.dataset.left);
+		console.log({"page":page, "left":left, "top":top})
+		console.log(document.getElementById("reply-input").value)
+		var data = {
+			"name" : "test_user",
+			"time" : Date.now(),
+			"value" : document.getElementById("reply-input").value,
+			"span-page" : page,
+			"span-left" : left,
+			"span-top" : top
+		}
+		console.log(data);
+		Promise.resolve()
+		.then(function(){
+			return new Promise(function(resolve, reject){
+				setTimeout(function(){
+					console.log("sending");
+					var json_data = JSON.stringify(data);
+					const xhr = new XMLHttpRequest();
+					xhr.open("POST", "/add_comment");
+					xhr.setRequestHeader("Content-Type", "application/json")
+					xhr.send(json_data);
+					// document.getElementById("reply-input").value = "";
+					resolve();
+				}, 400);
+			});
+		})
+		.then(function(){
+			return new Promise(function(resolve, reject){
+				setTimeout(function(){
+					window.location.reload();
+					resolve();
+				}, 300)
+			});
+		})
 	}
-	console.log(data);
-	Promise.resolve()
-	.then(function(){
-		return new Promise(function(resolve, reject){
-			setTimeout(function(){
-				console.log("sending");
-				var json_data = JSON.stringify(data);
-				const xhr = new XMLHttpRequest();
-				xhr.open("POST", "/add_comment");
-				xhr.setRequestHeader("Content-Type", "application/json")
-				xhr.send(json_data);
-				document.getElementById("reply-input").value = "";
-				resolve();
-			}, 350);
-		});
-	})
-	.then(function(){
-		return new Promise(function(resolve, reject){
-			setTimeout(function(){
-				window.location.reload();
-				resolve();
-			}, 300)
-		});
-	})
-
 };
 

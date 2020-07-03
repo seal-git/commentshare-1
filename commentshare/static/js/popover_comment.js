@@ -28,7 +28,6 @@ var makeComment = function(commentTarget){
 	//その下に返信フォームもつける
 	comment += '<form id="reply-form" method="" action="">';
 	comment += '<input type="text" id="reply-input">';
-	// comment += '<input type="button" id="reply-submit" value="送信"> ';
 	comment += '<input type="button" id="reply-submit" value="送信" onclick="OnButtonClick(event);"> ';
 	comment += '</div>';
 	console.log(comment);
