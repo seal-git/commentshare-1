@@ -128,6 +128,20 @@ def add_comment():
         print(result)
         filename = './commentshare/static/comments.txt'
         with open(filename, mode='a') as f:
-            f.write(str(result)+"\n")
+            str_result = str(result).replace("[", "{")
+            str_result = str(result).replace("]", "}")
+            str_result = str(result).replace("\'", "\"")
+            f.write(str_result+"\n")
 
     return render_template('viewer.html', title='pdf page')
+
+@app.route('/get_comment', methods=['POST','GET'])
+def get_comment():
+    print(os.getcwd())
+    filename = './commentshare/static/comments.txt'
+    if request.method == 'POST':
+        with open(filename, mode='r') as f:
+            result = f.read()
+            return result
+    else:
+        return "get"
