@@ -15,11 +15,14 @@
 function getText(){
 	//選択範囲のノードを返す
 	//選択範囲がなかったり広すぎたら0を返す
+	//balloon内の要素が選択されても0を返す
 	var Selected = window.getSelection()
 	var SelectedText = Selected.toString();
-	if(Selected.anchorNode.parentElement.className=="balloon"){
+	var className = Selected.anchorNode.parentElement.className.split(" ");
+	console.log(className);
+	if(className.indexOf("balloon")!=-1){	//選択範囲がballoon内
 		return 0;
-	}else if(SelectedText.length<1||SelectedText.length>15){
+	}else if(SelectedText.length<1||SelectedText.length>15){	//選択範囲が不正
 		return 0;
 	}else{
 		console.log(SelectedText);
@@ -86,21 +89,20 @@ window.onclick = function() {
 		document.getElementById("comment-form").appendChild(p);
 
 		//コメント情報をjsonにしてサーバに送信する
-		form.onsubmit=function(){
-			// alert(o.value+"\n"+clientRect.left+","+ clientRect.top);
-			// alert(clientRect.left+","+ clientRect.top);
+		form.onsubmit=function(event){
+			console.log("event", event.target.parentElement);
 			var data = [
 				{"name" : "test_user"},
-				{"comment" : o.value},
-				// {"node" : Selected},
-				{"time" : Date.now()}
+				{"time" : Date.now()},
+				{"value" : event.target.value},
+				{"span-page" : o.value}
 			]
+			console.log("data",data);
 			var json_data = JSON.stringify(data);
 			const xhr = new XMLHttpRequest();
-			xhr.open("POST", "/add_comment");
-			xhr.setRequestHeader("Content-Type", "application/json")
-			xhr.send(json_data);
-			// console.log(data["node"]);
+			// xhr.open("POST", "/add_comment");
+			// xhr.setRequestHeader("Content-Type", "application/json")
+			// xhr.send(json_data);
 			o.value = "";
 			document.getElementById("viewerContainer").removeChild(form);
 		}

@@ -3,15 +3,16 @@ $(window).on('load',function(){
 	console.log("overlay")
 })
 
+//仮のコメントリスト
 var commentList = [
-{"value": "コメント1", "span-page":2, "span-left": 219, "span-top": 711, "offset": -200},
-{"value": "コメント2", "span-page":2, "span-left": 251, "span-top": 623, "offset": 0},
-{"value": "コメント3", "span-page":2, "span-left": 251, "span-top": 623, "offset": 50}
+{"id": "user1", "time": "1111", "value": "コメント1", "span-page":2, "span-left": 219, "span-top": 711, "offset": -200},
+{"id": "user2", "time": "2222", "value": "コメント2", "span-page":2, "span-left": 251, "span-top": 623, "offset": -100},
+{"id": "user3", "time": "3333", "value": "コメント3", "span-page":2, "span-left": 251, "span-top": 623, "offset": 50}
 ];
 
 const a = document.getElementById("viewer");
-a.onmousemove =function(){
-	var hover = $(":hover");
+a.onmousemove =function(){	//viwer要素上でmousemoveしたら発火
+	var hover = $(":hover");	//カーソル上の要素を全て返す
 	Object.keys(hover).forEach(function(key){	//連想配列をforEachするときの書き方(途中でbreakはできない)
 		if(hover[key].tagName == "SPAN"){
 			hover[key].onmousemove = function(){
@@ -25,6 +26,7 @@ a.onmousemove =function(){
 				console.log(hover[key].textContent);
 				console.log("left", left, "top", top, "page", page);
 
+				//カーソルの指すspanについているコメントを返す
 				var target = commentList.filter(function(comment){
 					console.log(comment["span-left"]);
 					return(comment["span-left"] === left)
@@ -33,31 +35,33 @@ a.onmousemove =function(){
 					return(comment["span-top"] === top)
 				});
 				console.log("target", target[0]);
+
+				//カーソルの指すspanにコメントがついていれば表示する
 				if(target.length){
-					var commentTarget = target[0];
+					var commentTarget = target;
 					//要素の背景色の変更
 					hover[key].style.backgroundColor = "red";
 
 					//吹き出しを表示(jquery.balloon.jsから)
 					$(hover[key]).balloon({
 						position: "right",
-						offsetX : commentTarget["offset"],
+						// offsetX : commentTarget["offset"],
 						showDuration: 10,
 						tipSize: 20,
 						css: {
-						"color": "#0000ff",
-						"font-size": "20px",
-						"font-weight": "bold",
-						"border": "solid 2px #111",
-						"padding": "0px",
-						"background-color": "#eee",
-						"opacity": 1,
+							"minWidth": "200px",
+							"color": "#0000ff",
+							"font-size": "20px",
+							"font-weight": "bold",
+							"border": "solid 2px #111",
+							"padding": "0px",
+							"background-color": "#eee",
+							"opacity": 1,
 						},
 						"html":true,
-						contents: makeComment(commentTarget.value)
+						contents: makeComment(commentTarget)
 					});
 				}
-
 			}
 			hover[key].onmouseleave = function(){
 					hover[key].style.backgroundColor = "white"
