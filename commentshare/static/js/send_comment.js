@@ -96,15 +96,32 @@ window.onclick = function() {
 				"span-left" : node_left,
 				"span-top" : node_top
 			}
+
 			console.log("data",data);
-			var json_data = JSON.stringify(data);
-			const xhr = new XMLHttpRequest();
-			xhr.open("POST", "/add_comment");
-			xhr.setRequestHeader("Content-Type", "application/json")
-			xhr.send(json_data);
-			inputForm.value = "";
-			document.getElementById("viewerContainer").removeChild(form);
-			// window.location.reload();
+			Promise.resolve()
+			.then(function(){
+				return new Promise(function(resolve, reject){
+					setTimeout(function(){
+						console.log("sending");
+						var json_data = JSON.stringify(data);
+						const xhr = new XMLHttpRequest();
+						xhr.open("POST", "/add_comment");
+						xhr.setRequestHeader("Content-Type", "application/json")
+						xhr.send(json_data);
+						inputForm.value = "";
+						document.getElementById("viewerContainer").removeChild(form);
+						resolve();
+					}, 350);
+				});
+			})
+			.then(function(){
+				return new Promise(function(resolve, reject){
+					setTimeout(function(){
+						window.location.reload();
+						resolve();
+					}, 300)
+				});
+			})
 		}
 
 

@@ -109,12 +109,29 @@ function OnButtonClick(e){
 		"span-top" : top
 	}
 	console.log(data);
-	var json_data = JSON.stringify(data);
-	const xhr = new XMLHttpRequest();
-	xhr.open("POST", "/add_comment");
-	xhr.setRequestHeader("Content-Type", "application/json")
-	xhr.send(json_data);
-	document.getElementById("reply-input").value = "";
-	// window.location.reload();
+	Promise.resolve()
+	.then(function(){
+		return new Promise(function(resolve, reject){
+			setTimeout(function(){
+				console.log("sending");
+				var json_data = JSON.stringify(data);
+				const xhr = new XMLHttpRequest();
+				xhr.open("POST", "/add_comment");
+				xhr.setRequestHeader("Content-Type", "application/json")
+				xhr.send(json_data);
+				document.getElementById("reply-input").value = "";
+				resolve();
+			}, 350);
+		});
+	})
+	.then(function(){
+		return new Promise(function(resolve, reject){
+			setTimeout(function(){
+				window.location.reload();
+				resolve();
+			}, 300)
+		});
+	})
+
 };
 
