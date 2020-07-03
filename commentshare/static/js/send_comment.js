@@ -1,17 +1,3 @@
-/**
- *
- */
-
-
-//なにしてるのかよく分からん。文法的に正しいのか？
-//window.onload = function(){
-//
-//	document.getElementsByTagName.onselect = function(){
-//		console.log('2');
-//		getText();
-//	};
-//}
-
 function checkSelection(Selected){
 	//selectionの有効性チェック
 	//選択範囲がなかったり広すぎたら0を返す
@@ -102,14 +88,14 @@ window.onclick = function() {
 		//コメント情報をjsonにしてサーバに送信する
 		submitForm.onclick=function(event){
 			console.log("event", event);
-			var data = [
-				{"name" : "test_user"},
-				{"time" : Date.now()},
-				{"value" : document.getElementById("comment-input").value},
-				{"span-page" : node_page},
-				{"span-left" : node_left},
-				{"span-top" : node_top}
-			]
+			var data = {
+				"name" : "test_user",
+				"time" : Date.now(),
+				"value" : document.getElementById("comment-input").value,
+				"span-page" : node_page,
+				"span-left" : node_left,
+				"span-top" : node_top
+			}
 			console.log("data",data);
 			var json_data = JSON.stringify(data);
 			const xhr = new XMLHttpRequest();
@@ -118,6 +104,7 @@ window.onclick = function() {
 			xhr.send(json_data);
 			inputForm.value = "";
 			document.getElementById("viewerContainer").removeChild(form);
+			// window.location.reload();
 		}
 
 
