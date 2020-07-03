@@ -1,6 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request
 from commentshare import app, db, bcrypt
 from commentshare.form import RegistrationForm, LoginForm
+
 from commentshare.models import User,PDF
 import os
 from flask_login import login_user, current_user, logout_user, login_required
@@ -28,7 +29,8 @@ def allowed_pdf(filename):
         return False
 
 
-
+from commentshare.models import User
+from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route('/')
 def hello_world():
@@ -80,10 +82,13 @@ def logout():
 @app.route('/account')
 @login_required
 def account():
+
     pdfs = db.session.query(PDF).filter_by(user_id=current_user.id).all()
     #print(type(pdfs))
     #print(pdfs[0].pdfname)
     return render_template('account.html',title='Account page',pdfs=pdfs)
+
+
 
 @app.route('/pdf_uploads',methods=['GET', 'POST'])
 @login_required
@@ -110,6 +115,7 @@ def upload():
             return redirect(request.url)
     return render_template('pdf_uploads.html', title='Account page')
 
+<<<<<<< HEAD
 
 
 @app.route('/add_comment', methods=['POST','GET'])
@@ -135,6 +141,8 @@ def search():
     return render_template('search.html', title='search_page')
 
 
+=======
+>>>>>>> 93b0b31cef38f2b5a3a2b68afa34fdd0e343a0c8
 
 @app.route('/read_pdf')
 def read_pdf():
