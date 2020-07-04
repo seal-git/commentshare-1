@@ -144,12 +144,16 @@ def add_comment():
         print(result)
         filename = './commentshare/static/comments.txt'
         with open(filename, mode='a') as f:
-<<<<<<< HEAD
-            f.write(str(result)+"\n")
+            str_result = str(result).replace("[", "{")
+            str_result = str(result).replace("]", "}")
+            str_result = str(result).replace("\'", "\"")
+            f.write(str_result+"\n")
+
     return render_template('viewer.html', title='pdf page')
 
 
 @app.route('/mypage',methods=['POST','GET'])
+@login_required
 def mypage():
     user = db.session.query(User).filter_by(id=current_user.id).one()
     if request.method == 'POST':
@@ -159,13 +163,8 @@ def mypage():
         db.session.commit()
         return render_template('mypage.html', title='Mypage',user=user)
     return render_template('mypage.html', title='Mypage',user=user)
-=======
-            str_result = str(result).replace("[", "{")
-            str_result = str(result).replace("]", "}")
-            str_result = str(result).replace("\'", "\"")
-            f.write(str_result+"\n")
 
-    return render_template('viewer.html', title='pdf page')
+
 
 @app.route('/get_comment', methods=['POST','GET'])
 def get_comment():
@@ -177,4 +176,3 @@ def get_comment():
             return result
     else:
         return "get"
->>>>>>> 3f3a8238c7a10f5d43d0624d5509398b8d7c91fc
