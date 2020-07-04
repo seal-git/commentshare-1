@@ -1,17 +1,3 @@
-/**
- *
- */
-
-
-//なにしてるのかよく分からん。文法的に正しいのか？
-//window.onload = function(){
-//
-//	document.getElementsByTagName.onselect = function(){
-//		console.log('2');
-//		getText();
-//	};
-//}
-
 function checkSelection(Selected){
 	//selectionの有効性チェック
 	//選択範囲がなかったり広すぎたら0を返す
@@ -102,22 +88,40 @@ window.onclick = function() {
 		//コメント情報をjsonにしてサーバに送信する
 		submitForm.onclick=function(event){
 			console.log("event", event);
-			var data = [
-				{"name" : "test_user"},
-				{"time" : Date.now()},
-				{"value" : document.getElementById("comment-input").value},
-				{"span-page" : node_page},
-				{"span-left" : node_left},
-				{"span-top" : node_top}
-			]
+			var data = {
+				"name" : "test_user",
+				"time" : Date.now(),
+				"value" : document.getElementById("comment-input").value,
+				"span-page" : node_page,
+				"span-left" : node_left,
+				"span-top" : node_top
+			}
+
 			console.log("data",data);
-			var json_data = JSON.stringify(data);
-			const xhr = new XMLHttpRequest();
-			xhr.open("POST", "/add_comment");
-			xhr.setRequestHeader("Content-Type", "application/json")
-			xhr.send(json_data);
-			inputForm.value = "";
-			document.getElementById("viewerContainer").removeChild(form);
+			Promise.resolve()
+			.then(function(){
+				return new Promise(function(resolve, reject){
+					setTimeout(function(){
+						console.log("sending");
+						var json_data = JSON.stringify(data);
+						const xhr = new XMLHttpRequest();
+						xhr.open("POST", "/add_comment");
+						xhr.setRequestHeader("Content-Type", "application/json")
+						xhr.send(json_data);
+						// inputForm.value = "";
+						// document.getElementById("viewerContainer").removeChild(form);
+						resolve();
+					}, 350);
+				});
+			})
+			.then(function(){
+				return new Promise(function(resolve, reject){
+					setTimeout(function(){
+						window.location.reload();
+						resolve();
+					}, 300)
+				});
+			})
 		}
 
 

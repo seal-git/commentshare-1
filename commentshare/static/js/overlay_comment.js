@@ -4,11 +4,37 @@ $(window).on('load',function(){
 })
 
 //仮のコメントリスト
-var commentList = [
-{"id": "user1", "time": "1111", "value": "コメント1", "span-page":2, "span-left": 219, "span-top": 711, "offset": -200},
-{"id": "user2", "time": "2222", "value": "コメント2", "span-page":2, "span-left": 251, "span-top": 623, "offset": -100},
-{"id": "user3", "time": "3333", "value": "コメント3", "span-page":2, "span-left": 251, "span-top": 623, "offset": 50}
+var text_commentList = [
+{"name": "user1", "time": "1111", "value": "コメント1", "span-page":2, "span-left": 219, "span-top": 711, "offset": -200},
+{"name": "user2", "time": "2222", "value": "コメント2", "span-page":2, "span-left": 251, "span-top": 623, "offset": -100},
+{"name": "user3", "time": "3333", "value": "コメント3", "span-page":2, "span-left": 251, "span-top": 623, "offset": 50}
 ];
+
+//コメントリストをサーバーから読み込む
+var str_commentList;
+var commentList;
+const xhr = new XMLHttpRequest();
+xhr.open("POST", "/get_comment");
+xhr.onload = function(){
+	console.log(xhr.status);
+	console.log(xhr.readyState);
+	if(xhr.readyState!=4){
+		//リクエスト中
+	}else if(xhr.status!=200){
+		//失敗
+	}else{
+		//コメントリストを受け取って配列に入れる
+		str_commentList = xhr.responseText;
+		commentList = str_commentList.split("\n");
+		commentList.pop();	//emptyである最後の1行も文字列に加えられてしまうので末尾を削除
+		for(var i=0; i<commentList.length; i++){
+			// console.log(commentList[i]);
+			commentList[i] = JSON.parse(commentList[i]);
+		}
+		console.log(commentList);
+	}
+};
+xhr.send(null);
 
 const a = document.getElementById("viewer");
 a.onmousemove =function(){	//viwer要素上でmousemoveしたら発火
@@ -26,15 +52,13 @@ a.onmousemove =function(){	//viwer要素上でmousemoveしたら発火
 				console.log(hover[key].textContent);
 				console.log("left", left, "top", top, "page", page);
 
-				//カーソルの指すspanについているコメントを返す
+				//カーソルの指すspanについているコメントのリストを返す
 				var target = commentList.filter(function(comment){
-					console.log(comment["span-left"]);
 					return(comment["span-left"] === left)
 				});
 				target = target.filter(function(comment){
 					return(comment["span-top"] === top)
 				});
-				console.log("target", target[0]);
 
 				//カーソルの指すspanにコメントがついていれば表示する
 				if(target.length){
@@ -69,33 +93,51 @@ a.onmousemove =function(){	//viwer要素上でmousemoveしたら発火
 		}
 	});
 }
-
-const b = document.getElementById("viewer");
-
-// a.onmouseover = function(){
-	var pages = a.getElementsByClassName("page");
-	console.log(pages.item(0).dataset.pageNumber);
-	var page1;
-	for(var i=0;i<pages.length;i++){
-		if(pages.item(i).dataset.pageNumber=="1"){
-				// カスタムデータ属性の2番目以降のハイフン以下はハイフン直後を大文字にする
-			page1 = pages.item(i);
-			break;
+function OnButtonClick(e){
+	console.log("e", e.target.parentElement.parentElement.dataset.page)
+	var value = document.getElementById("reply-input").value
+	console.log(value);
+	if(value.length == 0){
+		alert("コメントが入力されていません");
+		return(-1);
+	}else{
+		var page = Number(e.target.parentElement.parentElement.dataset.page);
+		var top = Number(e.target.parentElement.parentElement.dataset.top);
+		var left = Number(e.target.parentElement.parentElement.dataset.left);
+		console.log({"page":page, "left":left, "top":top})
+		console.log(document.getElementById("reply-input").value)
+		var data = {
+			"name" : "test_user",
+			"time" : Date.now(),
+			"value" : document.getElementById("reply-input").value,
+			"span-page" : page,
+			"span-left" : left,
+			"span-top" : top
 		}
+		console.log(data);
+		Promise.resolve()
+		.then(function(){
+			return new Promise(function(resolve, reject){
+				setTimeout(function(){
+					console.log("sending");
+					var json_data = JSON.stringify(data);
+					const xhr = new XMLHttpRequest();
+					xhr.open("POST", "/add_comment");
+					xhr.setRequestHeader("Content-Type", "application/json")
+					xhr.send(json_data);
+					// document.getElementById("reply-input").value = "";
+					resolve();
+				}, 400);
+			});
+		})
+		.then(function(){
+			return new Promise(function(resolve, reject){
+				setTimeout(function(){
+					window.location.reload();
+					resolve();
+				}, 300)
+			});
+		})
 	}
-	// console.log(page1);
-	// console.log(page1.getElementsByClassName("textLayer").item(0).getElementsByTagName("span").item(1).textContent);
-
-	var chars = page1.getElementsByTagName("span");
-	for(var i=0;i<chars.length;i++){
-		// console.log(chars[i]);
-		chars[i].onmouseover = function(event){
-		console.log("cmment")
-		console.log(event.target.textContent);
-		console.log(event.target);
-		}
-	};
-
-
-// }
+};
 
