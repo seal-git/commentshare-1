@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
-<center><h2>SEARCH WORD:  {%print(search_word)%}</h2></center>  
+<center><h2>Keyword: {%print(search_word)%}</h2></center>  
     <ul>
     {% for pdf in pdfs %}
         <li><a href=# class='pdf-list' pdf-id={{pdf.id}}.pdf><font color="#006600">
@@ -34,6 +34,7 @@ window.onload = $('.pdf-list').on('click', function(){
 }
 h2{
     margin-bottom:30px;
+    color:#4169e1;;
 }
 body{
     background-color:whitesmoke;

@@ -133,6 +133,7 @@ def search():
 
 
 @app.route('/read_pdf')
+@login_required
 def read_pdf():
     return render_template('viewer.html', title='pdf page')
 

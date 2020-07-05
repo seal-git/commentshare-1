@@ -1,22 +1,32 @@
 {% extends "layout.html" %}  
 {% block content %}  
 <div class="pdf_uploads">
+  <center>
     <h2>
-        PDFファイルをアップロードしてください。
+        PDFファイルのアップロード
     </h2>
     <form method = post enctype = multipart/form-data>
-    <input type=file name =file>
-    <button type="submit">UPLOAD</button>
+    <div class="custom-file">
+    <input type="file" id="pdf_file" class="form-control-file w-50" onchange="selectFile()" name =file>
+    </div>
+    <button type="submit" id='sub' class="btn btn-outline-primary">UPLOAD</button>
     </form>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
       {% for message in messages %}
-        <p>{{ message }}</p>
+        <p class='flash_message'>{{ message }}</p>
       {% endfor %}
     {% endif %}
   {% endwith %}
 </div>
+</center>
 <style>
+  .h2{
+    font-size: 4vw;
+  }
+  .flash_message{
+    margin-top:30px;
+  }
   .file {
     display: inline-block;
     overflow: hidden;
@@ -29,5 +39,30 @@
   .pdf_uploads{
     text-align: center;
   }
+
+  .custom-file{
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
 </style>
+
+<script>
+
+document.getElementById("sub").onclick = function() {
+  document.getElementById("sub").disabled = true;
+  $(this).closest('form').submit();
+};
+
+window.onload = function() {
+    document.getElementById("sub").disabled = true;
+  }
+  function selectFile() {
+    if (document.getElementById("pdf_file").value === "") {
+      document.getElementById("sub").disabled = true;
+    }
+    else {
+      document.getElementById("sub").disabled = false;
+    }
+  }
+</script>
 {% endblock content %}
