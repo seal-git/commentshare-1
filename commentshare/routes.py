@@ -142,12 +142,14 @@ def add_comment():
     print(os.getcwd())
     if request.method == 'POST':
         result = request.get_json(force=True)
-        print(result)
+        print(type(result))
+        print(str(result))
         filename = './commentshare/static/comments.txt'
         with open(filename, mode='a') as f:
-            str_result = str(result).replace("[", "{")
-            str_result = str(result).replace("]", "}")
+#             str_result = str(result).replace("[", "{")
+#             str_result = str(result).replace("]", "}")
             str_result = str(result).replace("\'", "\"")
+            str_result = str_result.replace("\\\\", "\\")
             f.write(str_result+"\n")
 
     return render_template('viewer.html', title='pdf page')

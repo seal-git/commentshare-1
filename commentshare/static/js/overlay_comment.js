@@ -40,7 +40,7 @@ const a = document.getElementById("viewer");
 a.onmousemove =function(){	//viwer要素上でmousemoveしたら発火
 	var hover = $(":hover");	//カーソル上の要素を全て返す
 	Object.keys(hover).forEach(function(key){	//連想配列をforEachするときの書き方(途中でbreakはできない)
-		if(hover[key].tagName == "SPAN"){
+		if(hover[key].tagName == "SPAN"){	//カーソルがspanを指していたら
 			hover[key].onmousemove = function(){
 				//要素のcssスタイル、ページ番号を取得
 				var style = window.getComputedStyle(hover[key]);
@@ -68,8 +68,11 @@ a.onmousemove =function(){	//viwer要素上でmousemoveしたら発火
 
 					//吹き出しを表示(jquery.balloon.jsから)
 					$(hover[key]).balloon({
-						position: "right",
-						// offsetX : commentTarget["offset"],
+						// position: "right",
+						position: "bottom",
+						// offsetX : -100,
+						offsetY : -5,
+						minLifetime : 500,
 						showDuration: 10,
 						tipSize: 20,
 						css: {
@@ -94,9 +97,8 @@ a.onmousemove =function(){	//viwer要素上でmousemoveしたら発火
 	});
 }
 function OnButtonClick(e){
-	console.log("e", e.target.parentElement.parentElement.dataset.page)
 	var value = document.getElementById("reply-input").value
-	console.log(value);
+	console.log(document.getElementById("reply-input"));
 	if(value.length == 0){
 		alert("コメントが入力されていません");
 		return(-1);
@@ -104,12 +106,13 @@ function OnButtonClick(e){
 		var page = Number(e.target.parentElement.parentElement.dataset.page);
 		var top = Number(e.target.parentElement.parentElement.dataset.top);
 		var left = Number(e.target.parentElement.parentElement.dataset.left);
+		var value_url = toURL(document.getElementById("reply-input").value);
 		console.log({"page":page, "left":left, "top":top})
 		console.log(document.getElementById("reply-input").value)
 		var data = {
 			"name" : "test_user",
 			"time" : Date.now(),
-			"value" : document.getElementById("reply-input").value,
+			"value" : value_url,
 			"span-page" : page,
 			"span-left" : left,
 			"span-top" : top
@@ -140,4 +143,5 @@ function OnButtonClick(e){
 		})
 	}
 };
+
 
