@@ -65,14 +65,6 @@
 {"name": "test_user", "time": 1593779762715, "value": "ここにコメントが書けるよ", "span-page": "2", "span-left": 251, "span-top": 595}
 {"name": "test_user", "time": 1593779773389, "value": "コメントに返信もできるよ", "span-page": 2, "span-left": 251, "span-top": 595}
 {"name": "test_user", "time": 1593779799667, "value": "この数字は投稿時間のUNIXタイムを表しています", "span-page": 2, "span-left": 251, "span-top": 595}
-<<<<<<< HEAD
-[{"name": "test_user"}, {"time": 1593825789635}, {"value": "nahanaha"}, {"span-page": "2"}, {"span-left": 285}, {"span-top": 470}]
-[{"name": "test_user"}, {"time": 1593825797355}, {"value": "nahanaha"}, {"span-page": "2"}, {"span-left": 285}, {"span-top": 470}]
-[{"name": "test_user"}, {"time": 1593826309891}, {"value": "nahanaha"}, {"span-page": "2"}, {"span-left": 65}, {"span-top": 347}]
-[{"name": "test_user"}, {"time": 1593826519064}, {"value": "nahanaha"}, {"span-page": "57"}, {"span-left": 92}, {"span-top": 176}]
-[{"name": "test_user"}, {"time": 1593826536786}, {"value": "nahanaha"}, {"span-page": "1"}, {"span-left": 270}, {"span-top": 203}]
-[{"name": "test_user"}, {"time": 1593826545901}, {"value": "nahanaha"}, {"span-page": "1"}, {"span-left": 388}, {"span-top": 145}]
-[{"name": "test_user"}, {"time": 1593826555343}, {"value": "nahanaha"}, {"span-page": "1"}, {"span-left": 270}, {"span-top": 203}]
 {"name": "test_user", "time": 1593827242890, "value": "nahanaha", "span-page": "2", "span-left": 60, "span-top": 316}
 {"name": "test_user", "time": 1593827390353, "value": "nahanaha", "span-page": "1", "span-left": 234, "span-top": 458}
 {"name": "test_user", "time": 1593827449691, "value": "nahanaha", "span-page": "1", "span-left": 151, "span-top": 201}
@@ -98,7 +90,6 @@
 {"name": "test_user", "time": 1593841840928, "value": "nahanaha", "span-page": "2", "span-left": 68, "span-top": 127}
 {"name": "test_user", "time": 1593845974044, "value": "nahanaha", "span-page": "1", "span-left": 268, "span-top": 429}
 {"name": "test_user", "time": 1593845990116, "value": "nahanaha", "span-page": "1", "span-left": 156, "span-top": 495}
-=======
 {"name": "test_user", "time": 1593784458067, "value": "ssssss", "span-page": "5", "span-left": 225, "span-top": 419}
 {"name": "test_user", "time": 1593784490955, "value": "これどういう意味？", "span-page": "1", "span-left": 163, "span-top": 528}
 {"name": "test_user", "time": 1593784505579, "value": "は？ggrks", "span-page": 1, "span-left": 163, "span-top": 528}
@@ -141,4 +132,3 @@
 {"name": "test_user", "time": 1593838131841, "value": "zが既知の場合", "span-page": "2", "span-left": 500, "span-top": 1088}
 {"name": "test_user", "time": 1593838195487, "value": "<a href=\"https://arxiv.org/pdf/1409.0473.pdf\" target=\"_blank\">https://arxiv.org/pdf/1409.0473.pdf</a>", "span-page": 2, "span-left": 180, "span-top": 1088}
 {"name": "test_user", "time": 1593838247296, "value": "<a href=\"https://arxiv.org/abs/1308.0850\" target=\"_blank\">https://arxiv.org/abs/1308.0850</a>", "span-page": "2", "span-left": 180, "span-top": 1125}
->>>>>>> seal-git-master
