@@ -115,18 +115,9 @@ def upload():
             return redirect(request.url)
     return render_template('pdf_uploads.html', title='Account page')
 
-<<<<<<< HEAD
 
 
-@app.route('/add_comment', methods=['POST','GET'])
-def add_comment():
-    print(os.getcwd())
-    if request.method == 'POST':
-        result = request.get_json(force=True)
-        print(result)
-        filename = './commentshare/static/comments.txt'
-        with open(filename, mode='a') as f:
-            f.write(str(result)+"\n")
+
 
 
 @app.route('/search', methods=['POST','GET'])
@@ -141,9 +132,35 @@ def search():
     return render_template('search.html', title='search_page')
 
 
-=======
->>>>>>> 93b0b31cef38f2b5a3a2b68afa34fdd0e343a0c8
 
 @app.route('/read_pdf')
 def read_pdf():
     return render_template('viewer.html', title='pdf page')
+
+@app.route('/add_comment', methods=['POST','GET'])
+def add_comment():
+    print(os.getcwd())
+    if request.method == 'POST':
+        result = request.get_json(force=True)
+        print(type(result))
+        print(str(result))
+        filename = './commentshare/static/comments.txt'
+        with open(filename, mode='a') as f:
+#             str_result = str(result).replace("[", "{")
+#             str_result = str(result).replace("]", "}")
+            str_result = str(result).replace("\'", "\"")
+            str_result = str_result.replace("\\\\", "\\")
+            f.write(str_result+"\n")
+
+    return render_template('viewer.html', title='pdf page')
+
+@app.route('/get_comment', methods=['POST','GET'])
+def get_comment():
+    print(os.getcwd())
+    filename = './commentshare/static/comments.txt'
+    if request.method == 'POST':
+        with open(filename, mode='r') as f:
+            result = f.read()
+            return result
+    else:
+        return "get"
