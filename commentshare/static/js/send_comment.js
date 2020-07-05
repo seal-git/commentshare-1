@@ -16,6 +16,16 @@ function checkSelection(Selected){
 	}
 }
 
+function toURL(txt){
+	// if (txt.match(/(http[s]?|ftp):\/\/.+?\..+\w$/i) == null){
+	if (txt.match(/(http[s]?|ftp):\/\/.+?/i) == null){	//URLの正規表現は要検討
+		console.log("urlfalse");
+		return(txt);
+	}else{
+		console.log("urltrue");
+		return("<a href=\\\""+txt+"\\\" target=\\\"_blank\\\">"+txt+"</a>");
+	}
+}
 
 window.onclick = function() {
 	var Selected = window.getSelection();
@@ -88,10 +98,11 @@ window.onclick = function() {
 		//コメント情報をjsonにしてサーバに送信する
 		submitForm.onclick=function(event){
 			console.log("event", event);
+			var value_url = toURL(document.getElementById("comment-input").value);
 			var data = {
 				"name" : "test_user",
 				"time" : Date.now(),
-				"value" : document.getElementById("comment-input").value,
+				"value" : value_url,
 				"span-page" : node_page,
 				"span-left" : node_left,
 				"span-top" : node_top
