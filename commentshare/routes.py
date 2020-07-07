@@ -83,9 +83,10 @@ def logout():
 @login_required
 def account():
     pdfs = db.session.query(PDF).filter_by(user_id=current_user.id).all()
+    length=len(pdfs)
     #print(type(pdfs))
     #print(pdfs[0].pdfname)
-    return render_template('account.html',title='Account page',pdfs=pdfs)
+    return render_template('account.html',title='Account page',pdfs=pdfs,length=length)
 
 
 
@@ -179,3 +180,22 @@ def get_comment():
             return result
     else:
         return "get"
+
+
+@app.route('/delete_pdf',methods=['POST','GET'])
+@login_required
+def delete():
+    pdfs = db.session.query(PDF).filter_by(user_id=current_user.id).all()
+    if request.method == 'GET':
+        pdf_id=request.args.get('pdf','')
+        if pdf_id != '':
+            pdf = db.session.query(PDF).filter_by(id=pdf_id).first()
+            if pdf.user_id == current_user.id:
+                db.session.delete(pdf)
+                db.session.commit()
+                delete_path=UPLOAD_FOLDER + '/' + str(pdf_id) +'.pdf'
+                print(delete_path)
+                os.remove(delete_path)
+                return redirect(url_for('account'))
+    return render_template('delete.html',title='Delete PDF',pdfs=pdfs)
+
