@@ -132,3 +132,5 @@
 {"name": "test_user", "time": 1593838131841, "value": "zが既知の場合", "span-page": "2", "span-left": 500, "span-top": 1088}
 {"name": "test_user", "time": 1593838195487, "value": "<a href=\"https://arxiv.org/pdf/1409.0473.pdf\" target=\"_blank\">https://arxiv.org/pdf/1409.0473.pdf</a>", "span-page": 2, "span-left": 180, "span-top": 1088}
 {"name": "test_user", "time": 1593838247296, "value": "<a href=\"https://arxiv.org/abs/1308.0850\" target=\"_blank\">https://arxiv.org/abs/1308.0850</a>", "span-page": "2", "span-left": 180, "span-top": 1125}
+{"name": "test_user", "time": 1594461892457, "value": "１", "span-page": "1", "span-left": 99.18205521472393, "span-top": 110.42654028436019}
+{"name": "test_user", "time": 1594461911753, "value": "２", "span-page": 1, "span-left": 99.18205521472393, "span-top": 110.42654028436019}

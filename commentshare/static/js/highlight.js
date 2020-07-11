@@ -1,5 +1,5 @@
 //viewer内のコメント付き要素をハイライトする
-
+/*
 const viewer = document.getElementById("viewer");
 viewer.onmousemove =function(){	//viwer要素上でmousemoveしたら発火
 	var hover = $(":hover");	//カーソル上の要素を全て返す
@@ -60,3 +60,4 @@ viewer.onmousemove =function(){	//viwer要素上でmousemoveしたら発火
 		}
 	});
 }
+*/
