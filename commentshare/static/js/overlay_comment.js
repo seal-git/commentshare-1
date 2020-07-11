@@ -4,15 +4,24 @@ $(window).on('load',function(){
 })
 
 //仮のコメントリスト
-var text_commentList = [
+var tmpCommentList = [
 {"name": "user1", "time": "1111", "value": "コメント1", "span-page":2, "span-left": 219, "span-top": 711, "offset": -200},
 {"name": "user2", "time": "2222", "value": "コメント2", "span-page":2, "span-left": 251, "span-top": 623, "offset": -100},
 {"name": "user3", "time": "3333", "value": "コメント3", "span-page":2, "span-left": 251, "span-top": 623, "offset": 50}
 ];
 
+//仮のコメントリスト
+var tmpCommentList2 = [
+{"name": "user1", "time": "1111", "value": "コメント1", "span-page":1, "span-left": 99.126, "span-top": 110.38, "offset": -200},
+{"name": "user2", "time": "2222", "value": "コメント2", "span-page":1, "span-left": 251, "span-top": 623, "offset": -100},
+{"name": "user3", "time": "3333", "value": "コメント3", "span-page":1, "span-left": 251, "span-top": 623, "offset": 50}
+];
+
+// var commentList = tmpCommentList2;
+
 //コメントリストをサーバーから読み込む
-var str_commentList;
 var commentList;
+var str_commentList;
 const xhr = new XMLHttpRequest();
 xhr.open("POST", "/get_comment");
 xhr.onload = function(){
@@ -36,28 +45,35 @@ xhr.onload = function(){
 };
 xhr.send(null);
 
-const a = document.getElementById("viewer");
-a.onmousemove =function(){	//viwer要素上でmousemoveしたら発火
+
+const viewer = document.getElementById("viewer");
+viewer.onmousemove =function(){	//viwer要素上でmousemoveしたら発火
 	var hover = $(":hover");	//カーソル上の要素を全て返す
 	Object.keys(hover).forEach(function(key){	//連想配列をforEachするときの書き方(途中でbreakはできない)
 		if(hover[key].tagName == "SPAN"){	//カーソルがspanを指していたら
 			hover[key].onmousemove = function(){
-				//要素のcssスタイル、ページ番号を取得
+				//要素の(left,top)をviewerサイズ(1000,1000)で正規化した値を取得
+				viewerStyle = window.getComputedStyle(hover[key].parentNode.parentNode)
+				var viewerWidth = parseFloat(viewerStyle.getPropertyValue("width"));
+				var viewerHeight = parseFloat(viewerStyle.getPropertyValue("height"));
 				var style = window.getComputedStyle(hover[key]);
 				var top = style.getPropertyValue("top").slice(0, -2);
-				top = parseInt(top, 10);
+				top = parseFloat(top, 10)/viewerHeight*1000.0;
 				var left = style.getPropertyValue("left").slice(0,-2);
-				left = parseInt(left, 10);
+				// left = parseFloat(left, 10);
+				left = parseFloat(left, 10)/viewerWidth*1000.0;
+
+				//要素のページ番号を取得
 				var page = hover[key].parentNode.parentNode.dataset.pageNumber;
+
 				console.log(hover[key].textContent);
 				console.log("left", left, "top", top, "page", page);
-
 				//カーソルの指すspanについているコメントのリストを返す
 				var target = commentList.filter(function(comment){
-					return(comment["span-left"] === left)
+					return(Math.abs(comment["span-left"]-left)<1.0)
 				});
 				target = target.filter(function(comment){
-					return(comment["span-top"] === top)
+					return(Math.abs(comment["span-top"]-top)<1.0)
 				});
 
 				//カーソルの指すspanにコメントがついていれば表示する
@@ -96,6 +112,7 @@ a.onmousemove =function(){	//viwer要素上でmousemoveしたら発火
 		}
 	});
 }
+//吹き出し内の送信ボタンが押されたら発火
 function OnButtonClick(e){
 	var value = document.getElementById("reply-input").value
 	console.log(document.getElementById("reply-input"));
@@ -103,6 +120,7 @@ function OnButtonClick(e){
 		alert("コメントが入力されていません");
 		return(-1);
 	}else{
+		//コメントデータ形成
 		var page = Number(e.target.parentElement.parentElement.dataset.page);
 		var top = Number(e.target.parentElement.parentElement.dataset.top);
 		var left = Number(e.target.parentElement.parentElement.dataset.left);
@@ -118,6 +136,8 @@ function OnButtonClick(e){
 			"span-top" : top
 		}
 		console.log(data);
+
+		//コメントデータ送信
 		Promise.resolve()
 		.then(function(){
 			return new Promise(function(resolve, reject){
