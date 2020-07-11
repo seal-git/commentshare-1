@@ -63,12 +63,17 @@ window.onclick = function() {
 		console.log(Selected);
 		console.log(Selected.anchorNode);
 
-		//選択されたノードのleft, top, pageを取得
+		//選択されたノードの(left,top)をviewerサイズ(1000,1000)で正規化した値を取得
+		viewerStyle = window.getComputedStyle(Selected.anchorNode.parentElement.parentNode.parentNode)
+		var viewerWidth = parseFloat(viewerStyle.getPropertyValue("width"));
+		var viewerHeight = parseFloat(viewerStyle.getPropertyValue("height"));
 		var node_style = window.getComputedStyle(Selected.anchorNode.parentElement);
 		var node_top = node_style.getPropertyValue("top").slice(0, -2);
-		node_top = parseInt(node_top, 10);
+		node_top = parseFloat(node_top, 10)/viewerHeight*1000.0;
 		var node_left = node_style.getPropertyValue("left").slice(0,-2);
-		node_left = parseInt(node_left, 10);
+		node_left = parseFloat(node_left, 10)/viewerWidth*1000.0;
+
+		//選択されたノードのpageを取得
 		var node_page = Selected.anchorNode.parentElement.parentNode.parentNode.dataset.pageNumber;
 		console.log("node_left", node_left, "node_top", node_top, "node_page", node_page);
 
