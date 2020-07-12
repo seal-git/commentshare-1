@@ -1,63 +1,47 @@
 //viewer内のコメント付き要素をハイライトする
-/*
-const viewer = document.getElementById("viewer");
-viewer.onmousemove =function(){	//viwer要素上でmousemoveしたら発火
-	var hover = $(":hover");	//カーソル上の要素を全て返す
-	Object.keys(hover).forEach(function(key){	//連想配列をforEachするときの書き方(途中でbreakはできない)
-		if(hover[key].tagName == "SPAN"){	//カーソルがspanを指していたら
-			hover[key].onmousemove = function(){
-				//要素のcssスタイル、ページ番号を取得
-				var style = window.getComputedStyle(hover[key]);
-				var top = style.getPropertyValue("top").slice(0, -2);
-				top = parseInt(top, 10);
-				var left = style.getPropertyValue("left").slice(0,-2);
-				left = parseInt(left, 10);
-				var page = hover[key].parentNode.parentNode.dataset.pageNumber;
-				console.log(hover[key].textContent);
-				console.log("left", left, "top", top, "page", page);
 
-				//カーソルの指すspanについているコメントのリストを返す
-				var target = commentList.filter(function(comment){
-					return(comment["span-left"] === left)
-				});
-				target = target.filter(function(comment){
-					return(comment["span-top"] === top)
-				});
+var highlight = function(viewer, commentList){
+	//loadされているページとそのページのコメントを配列に入れる
+	var pageList = Array.from(viewer.getElementsByClassName("page"));
+	pageList = pageList.filter(p => p.dataset.loaded);
+	var pageNumList = pageList.map(p => p.dataset.pageNumber);
+	commentList = commentList.filter(p => pageNumList.includes(p["span-page"]))
+	// console.log(commentList)
 
-				//カーソルの指すspanにコメントがついていれば表示する
-				if(target.length){
-					var commentTarget = target;
-					//要素の背景色の変更
-					hover[key].style.backgroundColor = "red";
+	//ページの高さと幅を取得
+	pageStyle = window.getComputedStyle(pageList[0])
+	var pageWidth = parseFloat(pageStyle.getPropertyValue("width"));
+	var pageHeight = parseFloat(pageStyle.getPropertyValue("height"));
 
-					//吹き出しを表示(jquery.balloon.jsから)
-					$(hover[key]).balloon({
-						// position: "right",
-						position: "bottom",
-						// offsetX : -100,
-						offsetY : -5,
-						minLifetime : 500,
-						showDuration: 10,
-						tipSize: 20,
-						css: {
-							"minWidth": "200px",
-							"color": "#0000ff",
-							"font-size": "20px",
-							"font-weight": "bold",
-							"border": "solid 2px #111",
-							"padding": "0px",
-							"background-color": "#eee",
-							"opacity": 1,
-						},
-						"html":true,
-						contents: makeComment(commentTarget)
-					});
+	for(var i=0; i<pageList.length; i++){
+		//iページのspanを配列に入れる
+		var spanList = pageList[i].getElementsByTagName("span");
+		var spanInfoList = [];
+		for(var j=0; j<spanList.length; j++){
+			//spanのleftとtopを(1000,1000)で正規化する
+			var spanStyle = window.getComputedStyle(spanList[j]);
+			var spanLeft = spanStyle.getPropertyValue("left").slice(0, -2);
+			spanLeft = parseFloat(spanLeft, 10)/pageWidth*1000.0;
+			var spanTop = spanStyle.getPropertyValue("top").slice(0, -2);
+			spanTop = parseFloat(spanTop, 10)/pageHeight*1000.0;
+			//正規化したspanをspanInfoListに入れる
+			var spanInfo = {left: spanLeft, top: spanTop};
+			spanInfoList.push(spanInfo);
+		}
+		// console.log("info",spanInfoList)
+		//iページのコメントを対応しているspan
+		var commentListOnePage = commentList.filter(p => p["span-page"]==pageNumList[i]);
+		for(var j=0; j<commentListOnePage.length; j++){
+			var spanCommentLeft = commentListOnePage[j]["span-left"];
+			var spanCommentTop = commentListOnePage[j]["span-top"];
+			for(var k=0; k<spanInfoList.length; k++){
+				var spanLeft = spanInfoList[k]["left"];
+				var spanTop = spanInfoList[k]["top"];
+				if(Math.abs(spanCommentLeft-spanLeft)<1&&Math.abs(spanCommentTop-spanTop)<1){
+					spanList[k].style.backgroundColor = "green";
+					break;
 				}
 			}
-			hover[key].onmouseleave = function(){
-					hover[key].style.backgroundColor = "white"
-			}
 		}
-	});
+	}
 }
-*/

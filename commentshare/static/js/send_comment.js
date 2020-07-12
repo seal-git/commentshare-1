@@ -104,9 +104,10 @@ window.onclick = function() {
 		submitForm.onclick=function(event){
 			console.log("event", event);
 			var value_url = toURL(document.getElementById("comment-input").value);
+			var now = new Date();
 			var data = {
 				"name" : "test_user",
-				"time" : Date.now(),
+				"time" : now.toISOString(),
 				"value" : value_url,
 				"span-page" : node_page,
 				"span-left" : node_left,
