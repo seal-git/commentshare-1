@@ -2,8 +2,9 @@ from flask import render_template, url_for, flash, redirect, request
 from commentshare import app, db, bcrypt
 from commentshare.form import RegistrationForm, LoginForm
 
-from commentshare.models import User,PDF
+from commentshare.models import User,PDF,Comment
 import os
+import json
 from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -145,6 +146,11 @@ def add_comment():
         result = request.get_json(force=True)
         print(type(result))
         print(str(result))
+        print(result['value'])
+        comment = Comment(value=result['value'],user_id=current_user.id,user_name=current_user.username,span_page=result['span-page'],span_top=result['span-top'],span_left=result['span-left'])
+        db.session.add(comment)
+        db.session.commit()
+        print(current_user.username)
         filename = './commentshare/static/comments.txt'
         with open(filename, mode='a') as f:
 #             str_result = str(result).replace("[", "{")
@@ -177,6 +183,7 @@ def get_comment():
     if request.method == 'POST':
         with open(filename, mode='r') as f:
             result = f.read()
+            print(result)
             return result
     else:
         return "get"
@@ -199,3 +206,17 @@ def delete():
                 return redirect(url_for('account'))
     return render_template('delete.html',title='Delete PDF',pdfs=pdfs)
 
+
+
+@app.route('/test')
+@login_required
+def test():
+    pdfs = db.session.query(PDF).filter_by(user_id=current_user.id).all()
+    length=len(pdfs)
+    print(type(pdfs))
+    print(pdfs)
+    a=[{"id":2,"value":3},{"id":3,"value":4}]
+    a=json.dumps(a)
+    #print(type(pdfs))
+    #print(pdfs[0].pdfname)
+    return render_template('test.html',title='Account page',pdfs=pdfs,length=length,a=a)
