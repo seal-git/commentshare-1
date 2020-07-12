@@ -8,6 +8,7 @@ import json
 from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import json
 
 
 UPLOAD_FOLDER = './commentshare/static/pdf_uploads'
@@ -144,20 +145,21 @@ def add_comment():
     print(os.getcwd())
     if request.method == 'POST':
         result = request.get_json(force=True)
-        print(type(result))
-        print(str(result))
-        print(result['value'])
-        comment = Comment(value=result['value'],user_id=current_user.id,user_name=current_user.username,span_page=result['span-page'],span_top=result['span-top'],span_left=result['span-left'])
-        db.session.add(comment)
-        db.session.commit()
-        print(current_user.username)
+        result["name"] = current_user.username
+        #print(str(result))
+        #print(result['value'])
+        #comment = Comment(value=result['value'],user_id=current_user.id,user_name=current_user.username,span_page=result['span-page'],span_top=result['span-top'],span_left=result['span-left'])
+        #db.session.add(comment)
+        #db.session.commit()
+        result_json = json.dumps(result)
+        #print(type(result))
         filename = './commentshare/static/comments.txt'
         with open(filename, mode='a') as f:
 #             str_result = str(result).replace("[", "{")
 #             str_result = str(result).replace("]", "}")
-            str_result = str(result).replace("\'", "\"")
-            str_result = str_result.replace("\\\\", "\\")
-            f.write(str_result+"\n")
+#             str_result = str(result).replace("\'", "\"")
+#             str_result = str_result.replace("\\\\", "\\")
+            f.write(result_json+"\n")
 
     return render_template('viewer.html', title='pdf page')
 
@@ -180,10 +182,10 @@ def mypage():
 def get_comment():
     print(os.getcwd())
     filename = './commentshare/static/comments.txt'
+    with open(filename, mode='r') as f:
+        result = f.read()
+
     if request.method == 'POST':
-        with open(filename, mode='r') as f:
-            result = f.read()
-            print(result)
             return result
     else:
         return "get"
