@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request
 from commentshare import app, db, bcrypt
-from commentshare.form import RegistrationForm, LoginForm
+from commentshare.form import RegistrationForm, LoginForm,Resetform
 
 from commentshare.models import User,PDF,Comment
 import os
@@ -100,13 +100,14 @@ def upload():
             flash('ファイルがありません')
             return redirect(request.url)
         file = request.files['file']
+        file_name = request.form['file_name']
         print(file)
         print(file.filename)
         if file.filename == '':
             flash('ファイルがありません,')
             return redirect(request.url)
         if file and allowed_pdf(file.filename):
-            pdf = PDF(pdfname=file.filename, user_id=current_user.id)
+            pdf = PDF(pdfname=file_name, user_id=current_user.id)
             #print(pdf)
             #print(os.path.join(UPLOAD_FOLDER,file.filename))
             db.session.add(pdf)
@@ -115,6 +116,8 @@ def upload():
             print(pdf)
             flash('アップロードに成功しました')
             return redirect(request.url)
+        else:
+            flash('pdfファイルであることを確認してください。','danger')
     return render_template('pdf_uploads.html', title='Account page')
 
 
@@ -129,16 +132,23 @@ def search():
         keyword=str(request.form['keyword'])
         search_word=keyword
         keyword='%'+keyword+'%'
-        pdfs = db.session.query(PDF).filter(PDF.pdfname.like(keyword)).all()
+        pdfs = db.session.query(PDF).filter(PDF.pdfname.ilike(keyword)).all()
         return render_template('search_result.html', title='search_result',pdfs=pdfs,search_word=search_word)
     return render_template('search.html', title='search_page')
 
 
 
-@app.route('/read_pdf')
+@app.route('/read_pdf', methods=['POST','GET'])
 @login_required
 def read_pdf():
-    return render_template('viewer.html', title='pdf page')
+    if request.method == 'GET':
+        pdf_id=request.args.get('file','')
+        if pdf_id != '':
+            pdf_id=pdf_id.split('/')
+            pdf_id=pdf_id[-1]
+            pdf_id=pdf_id.split('.')
+            pdf_id=int(pdf_id[0])
+    return render_template('viewer.html', title='pdf page',pdf_id=pdf_id)
 
 @app.route('/add_comment', methods=['POST','GET'])
 def add_comment():
@@ -222,3 +232,19 @@ def test():
     #print(type(pdfs))
     #print(pdfs[0].pdfname)
     return render_template('test.html',title='Account page',pdfs=pdfs,length=length,a=a)
+
+@app.route('/password_reset', methods=['GET', 'POST'])
+def resetpassword():
+    form = Resetform()
+    if form.validate_on_submit():
+        # POSTリクエスト(ログイン時)
+        user = db.session.query(User).filter_by(email=form.email.data).one()
+        if user and user.username==form.username.data:
+            hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+            user.password=hashed_password
+            db.session.commit()
+            return redirect(url_for('login'))
+        else:
+            flash('入力されたユーザーが見つかりません', 'danger')
+    # 初期表示時
+    return render_template('reset_password.html', title='Reset', form=form)

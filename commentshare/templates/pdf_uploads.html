@@ -9,6 +9,10 @@
     <div class="custom-file">
     <input type="file" id="pdf_file" class="form-control-file w-50" onchange="selectFile()" name =file>
     </div>
+    <div class="input_file_name">
+      <label>ファイル名</label>
+      <input type="text" id="pdf_name" class="form-control w-50" onchange="inputFile()" name=file_name>
+    </div>
     <button type="submit" id='sub' class="btn btn-outline-primary">UPLOAD</button>
     </form>
     {% with messages = get_flashed_messages() %}
@@ -44,6 +48,10 @@
     margin-top: 1em;
     margin-bottom: 1em;
   }
+
+  .input_file_name{
+    margin-bottom: 2em;
+  }
 </style>
 
 <script>
@@ -57,10 +65,23 @@ window.onload = function() {
     document.getElementById("sub").disabled = true;
   }
   function selectFile() {
-    if (document.getElementById("pdf_file").value === "") {
+    if (document.getElementById("pdf_file").value == "") {
       document.getElementById("sub").disabled = true;
     }
     else {
+      document.getElementById("sub").disabled = false;
+      var selectFilename = document.getElementById("pdf_file").value;
+      var regex = /\\|\\/;
+	    var input_file_name = selectFilename.split(regex);
+      document.getElementById("pdf_name").value = input_file_name[input_file_name.length - 1];
+    }
+  }
+
+  function inputFile(){
+    if (document.getElementById("pdf_name").value == "") {
+    document.getElementById("sub").disabled = true;
+  }
+    else{
       document.getElementById("sub").disabled = false;
     }
   }
