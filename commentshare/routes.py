@@ -1,7 +1,8 @@
 from flask import render_template, url_for, flash, redirect, request
 from commentshare import app, db, bcrypt
 from commentshare.form import RegistrationForm, LoginForm,Resetform
-
+import datetime
+import pytz
 from commentshare.models import User,PDF,Comment
 import os
 import json
@@ -166,11 +167,11 @@ def add_comment():
     if request.method == 'POST':
         result = request.get_json(force=True)
         result["name"] = current_user.username
-        #print(str(result))
+        print(str(result))
         #print(result['value'])
-        #comment = Comment(value=result['value'],user_id=current_user.id,user_name=current_user.username,span_page=result['span-page'],span_top=result['span-top'],span_left=result['span-left'])
-        #db.session.add(comment)
-        #db.session.commit()
+        comment = Comment(value=result['value'],user_id=current_user.id,user_name=current_user.username,span_page=result['span-page'],span_top=result['span-top'],span_left=result['span-left'],created=datetime.datetime.now(pytz.timezone('Asia/Tokyo')))
+        db.session.add(comment)
+        db.session.commit()
         result_json = json.dumps(result)
         #print(type(result))
         filename = './commentshare/static/comments.txt'
@@ -233,23 +234,26 @@ def delete():
 @app.route('/test')
 @login_required
 def test():
-    pdfs = db.session.query(PDF).filter_by(user_id=current_user.id).all()
-    length=len(pdfs)
-    pdf_list=list()
+    comments = db.session.query(Comment).filter_by(user_id=current_user.id).all()
+    length=len(comments)
+    comments_list=list()
     for i in range(length):
         dict={}
-        dict['id']=pdfs[i].id
-        dict['name']=pdfs[i].pdfname
-        dict['date']=str(pdfs[i].created)
-        pdf_list.append(dict)
-    print(type(pdfs))
-    print(pdfs)
+        dict['id']=comments[i].id
+        dict['value']=comments[i].value
+        dict['username']=comments[i].user_name
+        dict['span-page']=comments[i].span_page
+        dict['span-top']=comments[i].span_top
+        dict['span-left']=comments[i].span_left
+        dict['date']=str(comments[i].created)
+        comments_list.append(dict)
+    #print(comments)
     a=[{"id":2,"value":3},{"id":3,"value":4}]
     a=json.dumps(a)
-    pdf_list=json.dumps(pdf_list,ensure_ascii=False)
+    comments_list=json.dumps(comments_list,ensure_ascii=False)
     #print(type(pdfs))
     #print(pdfs[0].pdfname)
-    return render_template('test.html',title='Account page',pdf_list=pdf_list,length=length,a=a)
+    return render_template('test.html',title='Account page',pdf_list=comments_list,length=length,a=a)
 
 
 
