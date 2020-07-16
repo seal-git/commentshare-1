@@ -31,6 +31,7 @@ def allowed_pdf(filename):
         return False
 
 
+
 from commentshare.models import User
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -39,6 +40,7 @@ def hello_world():
     return 'Hello, World!'
 @app.route('/home')
 def home():
+    print(request.remote_addr)
     return render_template('home.html')
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -133,14 +135,22 @@ def search():
         search_word=keyword
         keyword='%'+keyword+'%'
         pdfs = db.session.query(PDF).filter(PDF.pdfname.ilike(keyword)).all()
-        return render_template('search_result.html', title='search_result',pdfs=pdfs,search_word=search_word)
+        len_pdfs=len(pdfs)
+        return render_template('search_result.html', title='search_result',pdfs=pdfs,search_word=search_word,len_pdfs=len_pdfs)
     return render_template('search.html', title='search_page')
 
 
 
 @app.route('/read_pdf', methods=['POST','GET'])
-@login_required
 def read_pdf():
+    #ログインしているかどうか
+    is_login=0
+    if current_user.is_active:
+        is_login=1
+    else:
+        is_login=0
+    #print(is_login)
+    #pdf_idの取得
     if request.method == 'GET':
         pdf_id=request.args.get('file','')
         if pdf_id != '':
@@ -148,7 +158,7 @@ def read_pdf():
             pdf_id=pdf_id[-1]
             pdf_id=pdf_id.split('.')
             pdf_id=int(pdf_id[0])
-    return render_template('viewer.html', title='pdf page',pdf_id=pdf_id)
+    return render_template('viewer.html', title='pdf page',pdf_id=pdf_id,is_login=is_login)
 
 @app.route('/add_comment', methods=['POST','GET'])
 def add_comment():
@@ -225,13 +235,23 @@ def delete():
 def test():
     pdfs = db.session.query(PDF).filter_by(user_id=current_user.id).all()
     length=len(pdfs)
+    pdf_list=list()
+    for i in range(length):
+        dict={}
+        dict['id']=pdfs[i].id
+        dict['name']=pdfs[i].pdfname
+        dict['date']=str(pdfs[i].created)
+        pdf_list.append(dict)
     print(type(pdfs))
     print(pdfs)
     a=[{"id":2,"value":3},{"id":3,"value":4}]
     a=json.dumps(a)
+    pdf_list=json.dumps(pdf_list,ensure_ascii=False)
     #print(type(pdfs))
     #print(pdfs[0].pdfname)
-    return render_template('test.html',title='Account page',pdfs=pdfs,length=length,a=a)
+    return render_template('test.html',title='Account page',pdf_list=pdf_list,length=length,a=a)
+
+
 
 @app.route('/password_reset', methods=['GET', 'POST'])
 def resetpassword():
@@ -246,5 +266,4 @@ def resetpassword():
             return redirect(url_for('login'))
         else:
             flash('入力されたユーザーが見つかりません', 'danger')
-    # 初期表示時
     return render_template('reset_password.html', title='Reset', form=form)

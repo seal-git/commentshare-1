@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
-<center><h2>Keyword: {%print(search_word)%}</h2></center>  
+<center><h2>Keyword: {%print(search_word)%}</h2></center>
+<center><h4>{%print(len_pdfs)%}件見つかりました。</h4></center>    
     <ul>
     {% for pdf in pdfs %}
         <li><a href=# class='pdf-list' pdf-id={{pdf.id}}.pdf><font color="#006600">
