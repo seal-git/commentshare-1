@@ -24,6 +24,8 @@ var commentList;
 var str_commentList;
 const xhr = new XMLHttpRequest();
 xhr.open("POST", "/get_comment");
+xhr.setRequestHeader("Content-Type", "application/json")
+xhr.send(pdf_id);
 xhr.onload = function(){
 	console.log(xhr.status);
 	console.log(xhr.readyState);
@@ -34,16 +36,16 @@ xhr.onload = function(){
 	}else{
 		//コメントリストを受け取って配列に入れる
 		str_commentList = xhr.responseText;
-		commentList = str_commentList.split("\n");
-		commentList.pop();	//emptyである最後の1行も文字列に加えられてしまうので末尾を削除
-		for(var i=0; i<commentList.length; i++){
+		commentList = JSON.parse(str_commentList);
+		//commentList.pop();	//emptyである最後の1行も文字列に加えられてしまうので末尾を削除
+		//for(var i=0; i<commentList.length; i++){
 			// console.log(commentList[i]);
-			commentList[i] = JSON.parse(commentList[i]);
-		}
+			//commentList[i] = JSON.parse(commentList[i]);
+		//}
 		console.log(commentList);
 	}
 };
-xhr.send(null);
+//xhr.send(null);
 
 const viewer = document.getElementById("viewer");
 viewer.onmousemove =function(e){	//viwer要素上でmousemoveしたら発火

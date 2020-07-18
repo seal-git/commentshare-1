@@ -109,6 +109,7 @@ window.onclick = function() {
 				"name" : "test_user",
 				"time" : now.toISOString(),
 				"value" : value_url,
+				"pdf_id" : pdf_id,
 				"span-page" : node_page,
 				"span-left" : node_left,
 				"span-top" : node_top

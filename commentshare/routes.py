@@ -117,7 +117,6 @@ def upload():
             db.session.commit()
             file.save(os.path.join(UPLOAD_FOLDER,(str(pdf.id)+'.pdf')))
             print(pdf)
-            flash('アップロードに成功しました')
             return redirect(request.url)
         else:
             flash('pdfファイルであることを確認してください。','danger')
@@ -159,6 +158,7 @@ def read_pdf():
             pdf_id=pdf_id[-1]
             pdf_id=pdf_id.split('.')
             pdf_id=int(pdf_id[0])
+            pdf_id=json.dumps(pdf_id)
     return render_template('viewer.html', title='pdf page',pdf_id=pdf_id,is_login=is_login)
 
 @app.route('/add_comment', methods=['POST','GET'])
@@ -169,18 +169,19 @@ def add_comment():
         result["name"] = current_user.username
         print(str(result))
         #print(result['value'])
-        comment = Comment(value=result['value'],user_id=current_user.id,user_name=current_user.username,span_page=result['span-page'],span_top=result['span-top'],span_left=result['span-left'],created=datetime.datetime.now(pytz.timezone('Asia/Tokyo')))
+        #print(result["pdf_id"])
+        comment = Comment(value=result['value'],user_id=current_user.id,user_name=current_user.username,pdf_id=result['pdf_id'],span_page=result['span-page'],span_top=result['span-top'],span_left=result['span-left'],created=datetime.datetime.now(pytz.timezone('Asia/Tokyo')))
         db.session.add(comment)
         db.session.commit()
         result_json = json.dumps(result)
         #print(type(result))
-        filename = './commentshare/static/comments.txt'
-        with open(filename, mode='a') as f:
+        #filename = './commentshare/static/comments.txt'
+        #with open(filename, mode='a') as f:
 #             str_result = str(result).replace("[", "{")
 #             str_result = str(result).replace("]", "}")
 #             str_result = str(result).replace("\'", "\"")
 #             str_result = str_result.replace("\\\\", "\\")
-            f.write(result_json+"\n")
+            #f.write(result_json+"\n")
 
     return render_template('viewer.html', title='pdf page')
 
@@ -202,14 +203,36 @@ def mypage():
 @app.route('/get_comment', methods=['POST','GET'])
 def get_comment():
     print(os.getcwd())
-    filename = './commentshare/static/comments.txt'
-    with open(filename, mode='r') as f:
-        result = f.read()
-
-    if request.method == 'POST':
-            return result
+    pdf_id = request.get_json(force=True)
+    pdf_id=int(pdf_id)
+    comments = db.session.query(Comment).filter_by(pdf_id=pdf_id).all()
+    length=len(comments)
+    comments_list=list()
+    for i in range(length):
+        dict={}
+        dict['id']=comments[i].id
+        dict['name']=comments[i].user_name
+        dict['value']=comments[i].value
+        dict['span-page']=str(comments[i].span_page)
+        dict['span-top']=comments[i].span_top
+        dict['span-left']=comments[i].span_left
+        dict['time']=str(comments[i].created)
+        comments_list.append(dict)
+    print(comments_list)
+    comments_list=json.dumps(comments_list,ensure_ascii=False)
+    if request.method=='POST':
+        return comments_list
     else:
-        return "get"
+        return 'get'
+
+    #filename = './commentshare/static/comments.txt'
+    #with open(filename, mode='r') as f:
+        #result = f.read()
+
+    #if request.method == 'POST':
+            #return result
+    #else:
+        #return "get"
 
 
 @app.route('/delete_pdf',methods=['POST','GET'])
