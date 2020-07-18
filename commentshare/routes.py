@@ -168,10 +168,7 @@ def add_comment():
         result = request.get_json()
         print(result)
         result["name"] = current_user.username
-<<<<<<< HEAD
-       # print(str(result))
-=======
->>>>>>> 0ac12b917a33b4d7676038b58b55e34bf1d83357
+        # print(str(result))
         #print(result['value'])
         #print(result["pdf_id"])
         comment = Comment(value=result['value'],user_id=current_user.id,user_name=current_user.username,pdf_id=result['pdf_id'],span_page=result['span-page'],span_top=result['span-top'],span_left=result['span-left'],created=datetime.datetime.now(pytz.timezone('Asia/Tokyo')))
