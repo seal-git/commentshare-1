@@ -27,15 +27,16 @@ class PDF(db.Model):
     def __repr__(self):
         return "PDF('{}', '{}','{}','{}','{}')".format(self.id, self.pdfname,self.user_id,self.created,self.permission)
 
-class comment(db.Model):
+class Comment(db.Model):
     __tablename__ = 'Comment'
     id = db.Column(db.Integer, primary_key=True)
     value = db.Column(db.String(400),nullable=False)
-    pdf_id = db.Column(db.Integer,nullable=False)
+    pdf_id = db.Column(db.Integer,nullable=False,default=1)
     user_id = db.Column(db.Integer,nullable=False)
+    user_name=db.Column(db.String(20), nullable=False)
     span_page= db.Column(db.Integer,nullable=False)
-    span_left= db.Column(db.Integer,nullable=False)
-    span_top= db.Column(db.Integer,nullable=False)
-    created = db.Column('created', db.DATETIME, default=datetime.now, nullable=False)
+    span_left= db.Column(db.Float,nullable=False)
+    span_top= db.Column(db.Float,nullable=False)
+    created = db.Column(db.DATETIME, default=datetime.now, nullable=False)
     def __repr__(self):
-        return "comment('{}', '{}','{}','{}','{}','{}','{}','{}')".format(self.id, self.value,self.pdf_id,self.user_id,self.span_page,self.span_left,self.span_top,self.created)
+        return "comment('{}', '{}','{}','{}','{}','{}','{}','{}','{}')".format(self.id, self.value,self.pdf_id,self.user_id,self.user_name,self.span_page,self.span_left,self.span_top,self.created)
