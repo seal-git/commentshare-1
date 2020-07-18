@@ -167,13 +167,13 @@ def add_comment():
     if request.method == 'POST':
         result = request.get_json(force=True)
         result["name"] = current_user.username
-        print(str(result))
+       # print(str(result))
         #print(result['value'])
         #print(result["pdf_id"])
         comment = Comment(value=result['value'],user_id=current_user.id,user_name=current_user.username,pdf_id=result['pdf_id'],span_page=result['span-page'],span_top=result['span-top'],span_left=result['span-left'],created=datetime.datetime.now(pytz.timezone('Asia/Tokyo')))
         db.session.add(comment)
         db.session.commit()
-        result_json = json.dumps(result)
+        #result_json = json.dumps(result)
         #print(type(result))
         #filename = './commentshare/static/comments.txt'
         #with open(filename, mode='a') as f:
@@ -218,7 +218,7 @@ def get_comment():
         dict['span-left']=comments[i].span_left
         dict['time']=str(comments[i].created)
         comments_list.append(dict)
-    print(comments_list)
+    #print(comments_list)
     comments_list=json.dumps(comments_list,ensure_ascii=False)
     if request.method=='POST':
         return comments_list
