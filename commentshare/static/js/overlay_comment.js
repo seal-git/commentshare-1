@@ -17,15 +17,15 @@ var tmpCommentList2 = [
 {"name": "user3", "time": "3333", "value": "コメント3", "span-page":1, "span-left": 251, "span-top": 623, "offset": 50}
 ];
 
-// var commentList = tmpCommentList2;
+ var commentList = tmpCommentList2;
 
 //コメントリストをサーバーから読み込む
 var commentList;
 var str_commentList;
 const xhr = new XMLHttpRequest();
 xhr.open("POST", "/get_comment");
-xhr.setRequestHeader("Content-Type", "application/json")
-xhr.send(pdf_id);
+//xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+xhr.setRequestHeader("Content-Type", "application/json");
 xhr.onload = function(){
 	console.log(xhr.status);
 	console.log(xhr.readyState);
@@ -36,16 +36,21 @@ xhr.onload = function(){
 	}else{
 		//コメントリストを受け取って配列に入れる
 		str_commentList = xhr.responseText;
+		console.log("xrt")
+		console.log("xrt",xhr.responseText)
 		commentList = JSON.parse(str_commentList);
 		//commentList.pop();	//emptyである最後の1行も文字列に加えられてしまうので末尾を削除
 		//for(var i=0; i<commentList.length; i++){
 			// console.log(commentList[i]);
 			//commentList[i] = JSON.parse(commentList[i]);
 		//}
-		console.log(commentList);
-	}
-};
+		console.log("cl",commentList);
+	}};
 //xhr.send(null);
+//param = "pdf_id="+pdf_id
+param = '{"pdf_id":'+pdf_id+'}'
+console.log(param)
+xhr.send(param);
 
 const viewer = document.getElementById("viewer");
 viewer.onmousemove =function(e){	//viwer要素上でmousemoveしたら発火
