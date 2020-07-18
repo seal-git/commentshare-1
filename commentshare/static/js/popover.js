@@ -82,16 +82,18 @@ function OnButtonClick(e){
 		return(-1);
 	}else{
 		//コメントデータ形成
+		var now = new Date();
+		var value_url = toURL(document.getElementById("reply-input").value);
 		var page = Number(e.target.parentElement.parentElement.dataset.page);
 		var top = Number(e.target.parentElement.parentElement.dataset.top);
 		var left = Number(e.target.parentElement.parentElement.dataset.left);
-		var value_url = toURL(document.getElementById("reply-input").value);
 		console.log({"page":page, "left":left, "top":top})
 		console.log(document.getElementById("reply-input").value)
 		var data = {
 			"name" : "test_user",
-			"time" : Date.now(),
+			"time" : now.toISOString(),
 			"value" : value_url,
+			"pdf_id" : pdf_id,
 			"span-page" : page,
 			"span-left" : left,
 			"span-top" : top
@@ -109,7 +111,7 @@ function OnButtonClick(e){
 					xhr.open("POST", "/add_comment");
 					xhr.setRequestHeader("Content-Type", "application/json")
 					xhr.send(json_data);
-					// document.getElementById("reply-input").value = "";
+					 document.getElementById("reply-input").value = "";
 					resolve();
 				}, 400);
 			});

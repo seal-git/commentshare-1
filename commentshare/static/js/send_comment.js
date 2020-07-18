@@ -103,16 +103,21 @@ window.onclick = function() {
 		//コメント情報をjsonにしてサーバに送信する
 		submitForm.onclick=function(event){
 			console.log("event", event);
-			var value_url = toURL(document.getElementById("comment-input").value);
-			var now = new Date();
-			var data = {
-				"name" : "test_user",
-				"time" : now.toISOString(),
-				"value" : value_url,
-				"pdf_id" : pdf_id,
-				"span-page" : node_page,
-				"span-left" : node_left,
-				"span-top" : node_top
+			if(value.length == 0){
+				alert("コメントが入力されていません");
+				return(-1);
+			}else{
+				var value_url = toURL(document.getElementById("comment-input").value);
+				var now = new Date();
+				var data = {
+					"name" : "test_user",
+					"time" : now.toISOString(),
+					"value" : value_url,
+					"pdf_id" : pdf_id,
+					"span-page" : node_page,
+					"span-left" : node_left,
+					"span-top" : node_top
+				}
 			}
 
 			console.log("data",data);
