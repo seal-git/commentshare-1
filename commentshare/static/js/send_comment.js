@@ -103,6 +103,8 @@ window.onclick = function() {
 		//コメント情報をjsonにしてサーバに送信する
 		submitForm.onclick=function(event){
 			console.log("event", event);
+			//valueの定義の修正（odani）
+			var value =document.getElementById("comment-input").value;
 			if(value.length == 0){
 				alert("コメントが入力されていません");
 				return(-1);
