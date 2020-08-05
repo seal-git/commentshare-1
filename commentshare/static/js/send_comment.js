@@ -23,7 +23,7 @@ function toURL(txt){
 		return(txt);
 	}else{
 		console.log("urltrue");
-		return("<a href=\\\""+txt+"\\\" target=\\\"_blank\\\">"+txt+"</a>");
+		return("<a href="+txt+" target=\"_blank\">"+txt+"</a>");
 	}
 }
 
