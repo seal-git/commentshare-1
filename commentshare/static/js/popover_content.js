@@ -18,13 +18,13 @@ var makeComment = function(commentTarget){
 
 	//一人分のコメントのブロックを書き出す
 	for(var i=0; i<commentTarget.length; i++){
-	var commentBlock = '<div class="comment-block">';
+	var commentBlock = '<div class="comment-block" style="padding-bottom:15px">';
 	commentBlock += '<div class="comment-info balloon">';
-	commentBlock += '<div class="comment-icon balloon" style="padding-right:0px"><a href="home"><img src="../static/images/icon.png" align="left" width="20px" height="20px"></a></div>';
-	commentBlock += '<div class="comment-username balloon" style="padding-right:12px">'+commentTarget[i]["name"]+'</div>';
+	commentBlock += '<div class="comment-user balloon"><a href="home"><img src="../static/images/icon.png" class="icon"></a>'+commentTarget[i]["name"]+'</div>';
 	commentBlock += '<div class="comment-time balloon">'+toDate(commentTarget[i]["time"])+'</div>';
 	commentBlock += '</div>';
 	commentBlock += '<div class="comment-value balloon">'+commentTarget[i]["value"]+'</div>';
+	commentBlock += '<div class="comment-favorite balloon"><input type="image" src="../static/images/good_button.jpg" class="good_button" onclick="FavoriteClick(event)">'+'1'+'</div>';
 	commentBlock += '</div>';
 
 	commentList.push(commentBlock);
