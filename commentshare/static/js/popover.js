@@ -30,6 +30,10 @@ var popover = function(viewer, commentList){
 			target = target.filter(function(comment){
 				return(Math.abs(comment["span-top"]-top)<1.0)
 			});
+			target = target.filter(function(comment){
+				return(comment["span-page"]==page)
+			});
+
 
 			//カーソルの指すspanにコメントがついていれば表示する
 			if(target.length){

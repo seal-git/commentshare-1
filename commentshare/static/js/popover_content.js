@@ -20,7 +20,8 @@ var makeComment = function(commentTarget){
 	for(var i=0; i<commentTarget.length; i++){
 	var commentBlock = '<div class="comment-block">';
 	commentBlock += '<div class="comment-info balloon">';
-	commentBlock += '<div class="comment-username balloon">'+commentTarget[i]["name"]+'</div>';
+	commentBlock += '<div class="comment-icon balloon" style="padding-right:0px"><a href="home"><img src="../static/images/icon.png" align="left" width="20px" height="20px"></a></div>';
+	commentBlock += '<div class="comment-username balloon" style="padding-right:12px">'+commentTarget[i]["name"]+'</div>';
 	commentBlock += '<div class="comment-time balloon">'+toDate(commentTarget[i]["time"])+'</div>';
 	commentBlock += '</div>';
 	commentBlock += '<div class="comment-value balloon">'+commentTarget[i]["value"]+'</div>';
