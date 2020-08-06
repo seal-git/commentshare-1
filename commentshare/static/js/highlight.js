@@ -6,7 +6,8 @@ var highlight = function(viewer, commentList){
 	pageList = pageList.filter(p => p.dataset.loaded);
 	var pageNumList = pageList.map(p => p.dataset.pageNumber);
 	commentList = commentList.filter(p => pageNumList.includes(p["span-page"]))
-	// console.log(commentList)
+	//console.log('high light')
+	//console.log(commentList)
 
 	//ページの高さと幅を取得
 	pageStyle = window.getComputedStyle(pageList[0])

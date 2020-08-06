@@ -286,3 +286,13 @@ def resetpassword():
         else:
             flash('入力されたユーザーが見つかりません', 'danger')
     return render_template('reset_password.html', title='Reset', form=form)
+
+
+@app.route('/user_mypage', methods=['GET', 'POST'])
+def user_mypage():
+    usr_id=2
+    user = db.session.query(User).filter_by(id=usr_id).one()
+    print(user.profile)
+    pdf_list=db.session.query(Comment.user_id ,PDF.pdfname,PDF.id,Comment.created).filter_by(user_id=usr_id).join(PDF,Comment.pdf_id==PDF.id).order_by(Comment.created.desc()).group_by(PDF.pdfname).limit(3).all()
+    print(pdf_list)
+    return render_template('usr_mypage.html', title='User Mypage',user=user,pdf=pdf_list)
