@@ -6,7 +6,7 @@ from flask_login import UserMixin
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-    
+
 class User(db.Model,UserMixin):
     __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True)
@@ -40,3 +40,5 @@ class Comment(db.Model):
     created = db.Column(db.DATETIME, default=datetime.now, nullable=False)
     def __repr__(self):
         return "comment('{}', '{}','{}','{}','{}','{}','{}','{}','{}')".format(self.id, self.value,self.pdf_id,self.user_id,self.user_name,self.span_page,self.span_left,self.span_top,self.created)
+
+

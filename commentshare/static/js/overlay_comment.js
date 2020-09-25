@@ -4,13 +4,6 @@ $(window).on('load',function(){
 })
 
 //仮のコメントリスト
-var tmpCommentList = [
-{"name": "user1", "time": "1111", "value": "コメント1", "span-page":2, "span-left": 219, "span-top": 711, "offset": -200},
-{"name": "user2", "time": "2222", "value": "コメント2", "span-page":2, "span-left": 251, "span-top": 623, "offset": -100},
-{"name": "user3", "time": "3333", "value": "コメント3", "span-page":2, "span-left": 251, "span-top": 623, "offset": 50}
-];
-
-//仮のコメントリスト
 var tmpCommentList2 = [
 {"name": "user1", "time": "1111", "value": "コメント1", "span-page":1, "span-left": 99.126, "span-top": 110.38, "offset": -200},
 {"name": "user2", "time": "2222", "value": "コメント2", "span-page":1, "span-left": 251, "span-top": 623, "offset": -100},

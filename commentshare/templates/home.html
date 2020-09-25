@@ -1,21 +1,49 @@
 {% extends "layout.html" %}
 {% block content %}
-<p class="resizeimage1">
-    <img src='../static/htmlimage/Comment Share.png'style="margin-top: 0px">
-</p>
+    <h1>使い方の説明</h1>
 
-    <h1>How to use??</h1>
+    <div class="pdf-list-area">
+	    <h1>最近追加されたPDF</h1>
+	    {% for pdf in pdfs %}
+	        <li><a href=# class='pdf-list' pdf-id={{pdf.id}}.pdf>
+	         {%print(pdf.pdfname)%}
+	        </a></li>
+	    {% endfor %}
+    </div>
+
+<script>
+const URLJoin = (...args) =>
+  args
+    .join('/')
+    .replace(/[\/]+/g, '/')
+    .replace(/^(.+):\//, '$1://')
+    .replace(/^file:/, 'file:/')
+    .replace(/\/(\?|&|#[^!])/g, '$1')
+    .replace(/\?/g, '&')
+    .replace('&', '?');
 
 
+window.onload = $('.pdf-list').on('click', function(){
+    var id =  $(this).attr("pdf-id");
+    window.location.href = URLJoin('/read_pdf','?file=../static/pdf_uploads/',id)
+});
+</script>
 
 <style>
-    .resizeimage1 img{
-    width:100%;
-    padding-top: 0em;
-    margin-top: 0em;
-
-    }
-
+html, body{font-size:100%}
+.content{background-image: url(./static/htmlimage/Comment%20Share.png)}
+.pdf-list-area{
+	background-color:white;
+	display:table
+	}
+.pdf-list{
+	color:"#006600";
+	font-size:150%;
+}
 </style>
+
+
+
+
 {% endblock content %}
 

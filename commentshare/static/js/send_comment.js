@@ -30,7 +30,7 @@ function toURL(txt){
 window.onclick = function() {
 	var Selected = window.getSelection();
 	Selected = checkSelection(Selected);
-	console.log(Selected.toString());
+	console.log("selected", Selected.toString());
 
 	if(Selected==0){
 		//選択されてない状態でフォーム以外がクリックされたらフォームが消える
@@ -97,17 +97,19 @@ window.onclick = function() {
 		submitForm.setAttribute("type","button");
 		submitForm.setAttribute("value", "送信")
 		submitForm.setAttribute("id","comment-submit");
+		submitForm.setAttribute("onclick","OnButtonClick(event)");
 		submitForm.style = "WIDTH:50px; HEIGHT:20px"
 		document.getElementById("comment-form").appendChild(submitForm);
 
 		//コメント情報をjsonにしてサーバに送信する
 		submitForm.onclick=function(event){
-			console.log("event", event);
+//			console.log("event", event);
 			var value =document.getElementById("comment-input").value;
 			if(value.length == 0){
 				alert("コメントが入力されていません");
 				return(-1);
 			}else{
+				//コメントデータ形成
 				var value_url = toURL(document.getElementById("comment-input").value);
 				var now = new Date();
 				var data = {
@@ -119,39 +121,119 @@ window.onclick = function() {
 					"span-left" : node_left,
 					"span-top" : node_top
 				}
+				var str_data = JSON.stringify(data);
+				//コメントの送信
+				$.ajax({
+					type: "post",
+					url: "/add_comment",
+					data: str_data,
+					contentType: "application/json",
+					dataType: "text" //dataTypeをtextに指定しないとparserrorが返る
+				})
+				.then(
+					function(){
+						console.log("success");
+					},
+					function(XMLHttpRequest, textStatus, errorThrown){
+						console.log("failure");
+						console.log(XMLHttpRequest.status);
+						console.log(textStatus);
+						console.log(errorThrown.message);
+					}
+				)
+				.then(
+					function(){
+						 inputForm.value = "";
+						 document.getElementById("viewerContainer").removeChild(form);
+					}
+				)
 			}
-
-			console.log("data",data);
-			Promise.resolve()
-			.then(function(){
-				return new Promise(function(resolve, reject){
-					setTimeout(function(){
-						console.log("sending");
-						var json_data = JSON.stringify(data);
-						const xhr = new XMLHttpRequest();
-						xhr.open("POST", "/add_comment");
-						xhr.setRequestHeader("Content-Type", "application/json")
-						xhr.send(json_data);
-						// inputForm.value = "";
-						// document.getElementById("viewerContainer").removeChild(form);
-						resolve();
-					}, 350);
-				});
-			})
-			.then(function(){
-				return new Promise(function(resolve, reject){
-					setTimeout(function(){
-						window.location.reload();
-						resolve();
-					}, 300)
-				});
-			})
 		}
 
-
+			console.log("data",data);
+//			Promise.resolve()
+//			.then(function(){
+//				//コメントの送信
+//				return new Promise(function(resolve, reject){
+//					setTimeout(function(){
+//						console.log("sending");
+//						var json_data = JSON.stringify(data);
+//						const xhr = new XMLHttpRequest();
+//						xhr.open("POST", "/add_comment");
+//						xhr.setRequestHeader("Content-Type", "application/json")
+//						xhr.send(json_data);
+//						// inputForm.value = "";
+//						// document.getElementById("viewerContainer").removeChild(form);
+//						resolve();
+//					}, 350);
+//				});
+//			})
+//			.then(function(){
+//				//画面の更新
+//				return new Promise(function(resolve, reject){
+//					setTimeout(function(){
+//						window.location.reload();
+//						resolve();
+//					}, 300)
+//				});
+//			})
+//		}
 
 	}
 }
+//吹き出し内の送信ボタンが押されたら発火
+//function OnButtonClick(e){
+//	var value = document.getElementById("comment-input").value
+//	console.log(document.getElementById("comment-input"));
+//	if(value.length == 0){
+//		alert("コメントが入力されていません");
+//		return(-1);
+//	}else{
+//		//コメントデータ形成
+//		var now = new Date();
+//		var value_url = toURL(document.getElementById("comment-input").value);
+//		var page = Number(e.target.parentElement.parentElement.dataset.page);
+//		var top = Number(e.target.parentElement.parentElement.dataset.top);
+//		var left = Number(e.target.parentElement.parentElement.dataset.left);
+//		console.log({"page":page, "left":left, "top":top})
+//		console.log(document.getElementById("comment-input").value)
+//		var data = {
+//			"name" : "test_user",
+//			"time" : now.toISOString(),
+//			"value" : value_url,
+//			"pdf_id" : pdf_id,
+//			"span-page" : page,
+//			"span-left" : left,
+//			"span-top" : top
+//		}
+//		console.log(data);
+//
+//		//コメントデータ送信
+//		Promise.resolve()
+//		.then(function(){
+//			return new Promise(function(resolve, reject){
+//				setTimeout(function(){
+//					console.log("sending");
+//					var json_data = JSON.stringify(data);
+//					const xhr = new XMLHttpRequest();
+//					xhr.open("POST", "/add_comment");
+//					xhr.setRequestHeader("Content-Type", "application/json")
+//					xhr.send(json_data);
+//					 document.getElementById("comment-input").value = "";
+//					resolve();
+//				}, 400);
+//			});
+//		})
+//		.then(function(){
+//			return new Promise(function(resolve, reject){
+//				setTimeout(function(){
+////					window.location.reload();
+//					resolve();
+//				}, 300)
+//			});
+//		})
+//	}
+//};
 
 
 

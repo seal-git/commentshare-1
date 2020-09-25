@@ -9,8 +9,6 @@ import json
 from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import json
-
 
 UPLOAD_FOLDER = './commentshare/static/pdf_uploads'
 app.config["ALLOWED_EXTENSIONS"] = "PDF"
@@ -42,7 +40,9 @@ def hello_world():
 @app.route('/home')
 def home():
     print(request.remote_addr)
-    return render_template('home.html')
+    pdfs = db.session.query(PDF).order_by(PDF.created.desc()).limit(3).all() #最新のPDFを降順に3つ取得
+    print(pdfs)
+    return render_template('home.html', pdfs=pdfs)
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
