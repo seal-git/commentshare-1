@@ -201,26 +201,43 @@
   // Public
   //-----------------------------------------------------------------------------
   //mouseenterイベントを全てmousemoveイベントに変更して使用中(yoshinari)
+  //対象の部分にカーソルがenterしたときだけでなくmoveしているときもバルーンを表示
   $.fn.balloon = function(options) {
-    return this.one('mousemove', function first(e) {
+    return this.on('mousemove', function first(e) { //もとはone()
       const $target = $(this), t = this
       const $balloon = $target.on('mousemove', function(e) {
-        isValidTargetEvent($target, e) && $target.showBalloon();
-      }).off('mousemove', first).showBalloon(options).data('balloon');
+        isValidTargetEvent($target, e) && $target.showBalloon(); //if(A){return B}else{return A}の意味で&&を使っている
+      }).off('mouseenter', first).showBalloon(options).data('balloon');
       if($balloon) {
         $balloon.on('mouseleave', function(e) {
           if(t === e.relatedTarget || $.contains(t, e.relatedTarget)) { return; }
-          $target.hideBalloon();
+//          $target.hideBalloon();
         }).on('mousemove', function(e) {
           if(t === e.relatedTarget || $.contains(t, e.relatedTarget)) { return; }
           $balloon.stop(true, true);
-          $target.showBalloon();
+//          $target.showBalloon();
         });
       }
     }).on('mouseleave', function(e) {
-      const $target = $(this);
-      isValidTargetEvent($target, e) && $target.hideBalloon();
-    });
+        const $target = $(this), $balloon = $target.data('balloon');
+    		if($balloon){
+				var flag = false;
+				$balloon.on("mousemove", function(){
+					console.log("moving")
+					flag = true;
+				}).on("mouseleave", function(){
+					flag = false;
+					console.log("hide1");
+	    			isValidTargetEvent($target, e) && $target.hideBalloon();
+				})
+    		}
+			sethover = setTimeout(function(){
+    			if(flag == false){
+    				console.log("hide2");
+        			isValidTargetEvent($target, e) && $target.hideBalloon();
+    			}
+    		}, 500);
+		});
   };
 
   $.fn.showBalloon = function(options) {

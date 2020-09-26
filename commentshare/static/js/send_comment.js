@@ -1,5 +1,5 @@
 function checkSelection(Selected){
-	//selectionの有効性チェック
+	//selectionの有効性チェックする関数
 	//選択範囲がなかったり広すぎたら0を返す
 	//balloon内の要素が選択されても0を返す
 	console.log(Selected.anchorNode.parentElement)
@@ -17,6 +17,7 @@ function checkSelection(Selected){
 }
 
 function toURL(txt){
+	//コメントがURLならリンクにする関数
 	// if (txt.match(/(http[s]?|ftp):\/\/.+?\..+\w$/i) == null){
 	if (txt.match(/(http[s]?|ftp):\/\/.+?/i) == null){	//URLの正規表現は要検討
 		console.log("urlfalse");
@@ -26,6 +27,7 @@ function toURL(txt){
 		return("<a href="+txt+" target=\"_blank\">"+txt+"</a>");
 	}
 }
+
 
 window.onclick = function() {
 	var Selected = window.getSelection();
@@ -101,9 +103,8 @@ window.onclick = function() {
 		submitForm.style = "WIDTH:50px; HEIGHT:20px"
 		document.getElementById("comment-form").appendChild(submitForm);
 
-		//コメント情報をjsonにしてサーバに送信する
+		//コメント情報をjson型文字列にしてサーバに送信する
 		submitForm.onclick=function(event){
-//			console.log("event", event);
 			var value =document.getElementById("comment-input").value;
 			if(value.length == 0){
 				alert("コメントが入力されていません");
@@ -130,12 +131,14 @@ window.onclick = function() {
 					contentType: "application/json",
 					dataType: "text" //dataTypeをtextに指定しないとparserrorが返る
 				})
-				.then(
+				.then( //then()は成功時と失敗時の2種類の関数を引数に取る
 					function(){
+						//成功時はコメントリストの再読み込み
 						console.log("success");
+						get_comment(pdf_id);
 					},
 					function(XMLHttpRequest, textStatus, errorThrown){
-						console.log("failure");
+						alert("コメントの送信に失敗しました");
 						console.log(XMLHttpRequest.status);
 						console.log(textStatus);
 						console.log(errorThrown.message);
@@ -143,14 +146,14 @@ window.onclick = function() {
 				)
 				.then(
 					function(){
-						 inputForm.value = "";
-						 document.getElementById("viewerContainer").removeChild(form);
+						inputForm.value = "";
+						document.getElementById("viewerContainer").removeChild(form);
 					}
 				)
 			}
 		}
 
-			console.log("data",data);
+/*ajax化したので不要になった(一応残してある)*/
 //			Promise.resolve()
 //			.then(function(){
 //				//コメントの送信

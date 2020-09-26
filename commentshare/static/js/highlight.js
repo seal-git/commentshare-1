@@ -1,4 +1,4 @@
-//viewer内のコメント付き要素をハイライトする
+//viewer内のコメント付き要素をハイライトする関数
 
 var highlight = function(viewer, commentList){
 	//loadされているページとそのページのコメントを配列に入れる
