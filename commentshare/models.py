@@ -1,5 +1,5 @@
 from datetime import datetime
-from  commentshare import db, login_manager
+from commentshare import db, login_manager
 from flask_login import UserMixin
 
 

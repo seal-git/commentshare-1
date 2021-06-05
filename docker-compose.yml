@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-    - "10000:5000"
+    - "10100:5000"
     volumes:
     - ./:/workspace
     tty: true
