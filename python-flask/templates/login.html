@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<div class="container">
+  <h3>ログイン</h3>
+  <hr>
+    {{ wtf.quick_form(form) }}
+  <hr>
+  <p>アカウントをお持ちでないなら、下記からアカウントを作成してください。</p>
+  <p><a href="/register">アカウント作成</a></p>
+  <p>パスワードを忘れた場合は以下から再設定してください。</p>
+  <p><a href="/password_reset">パスワードの再設定</a></p>
+</div>
+{% endblock %}

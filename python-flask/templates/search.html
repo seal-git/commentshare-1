@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<div class='search_box'>
+    <center>
+    <h2>SEARCH</h2>
+    <p>検索したいワードを入力してください。</p>
+    <form method = "post">
+        <div class="form-group" style="text-align:center;">
+            <label>Keyword</label>
+            <input type="text" name="keyword" class="form-control w-50">
+        </div>
+    <button type="submit" class="btn btn-outline-primary">Search</button>
+    </form>
+</center>
+</div>
+
+<style>
+label{
+    color:#4169e1;
+}
+</style>
+{% endblock %}
