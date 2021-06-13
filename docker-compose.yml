@@ -13,8 +13,8 @@ services:
     - /etc/group:/etc/group:ro #read only
     - /etc/passwd:/etc/passwd:ro #read only
     tty: true
-#    networks:
-#      - my-network
+    networks:
+      - my-network
 
   sql:
     image: mysql
@@ -38,15 +38,16 @@ services:
     # データを永続化させる場合
     volumes:
       # 初期データを投入するSQLが格納されているdir
-#      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
       # 永続化するときにマウントするdir(ホスト側は空のディレクトリをマウントしないと初期データは登録されない！)
       - ./mysql/db:/var/lib/mysql
     command:
       --secure-file-priv="/docker-entrypoint-initdb.d"
     tty: true
-#    networks:
-#      - my-network
-#
-#networks:
-#    my-network:
+    networks:
+      - my-network
+
+networks:
+    my-network:
 #        external: true
+        driver: bridge
