@@ -1,29 +1,29 @@
-from app import db
+from app import db_
 from datetime import datetime
 from flask_login import UserMixin
 
 
-class User(db.Model, UserMixin):
+class User(db_.Model, UserMixin):
     __tablename__ = 'User'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
-    profile = db.Column(db.String(400), nullable=False, default='なし')
+    id = db_.Column(db_.Integer, primary_key=True)
+    username = db_.Column(db_.String(20), unique=True, nullable=False)
+    email = db_.Column(db_.String(120), unique=True, nullable=False)
+    password = db_.Column(db_.String(60), nullable=False)
+    profile = db_.Column(db_.String(400), nullable=False, default='なし')
 
     def __repr__(self):
         return "User('{}', '{}','{}','{}')".format(self.id, self.username,
                                                    self.email, self.profile)
 
 
-class PDF(db.Model):
+class PDF(db_.Model):
     __tablename__ = 'PDF'
-    id = db.Column(db.Integer, primary_key=True)
-    pdfname = db.Column(db.String(50), nullable=False)
-    user_id = db.Column(db.Integer, nullable=False)
-    created = db.Column('created', db.DATETIME, default=datetime.now,
+    id = db_.Column(db_.Integer, primary_key=True)
+    pdfname = db_.Column(db_.String(50), nullable=False)
+    user_id = db_.Column(db_.Integer, nullable=False)
+    created = db_.Column('created', db_.DATETIME, default=datetime.now,
                         nullable=False)
-    permission = db.Column(db.Integer, default=1)
+    permission = db_.Column(db_.Integer, default=1)
 
     def __repr__(self):
         return "PDF('{}', '{}','{}','{}','{}')".format(self.id, self.pdfname,
@@ -32,17 +32,17 @@ class PDF(db.Model):
                                                        self.permission)
 
 
-class Comment(db.Model):
+class Comment(db_.Model):
     __tablename__ = 'Comment'
-    id = db.Column(db.Integer, primary_key=True)
-    value = db.Column(db.String(400), nullable=False)
-    pdf_id = db.Column(db.Integer, nullable=False, default=1)
-    user_id = db.Column(db.Integer, nullable=False)
-    user_name = db.Column(db.String(20), nullable=False)
-    span_page = db.Column(db.Integer, nullable=False)
-    span_left = db.Column(db.Float, nullable=False)
-    span_top = db.Column(db.Float, nullable=False)
-    created = db.Column(db.DATETIME, default=datetime.now, nullable=False)
+    id = db_.Column(db_.Integer, primary_key=True)
+    value = db_.Column(db_.String(400), nullable=False)
+    pdf_id = db_.Column(db_.Integer, nullable=False, default=1)
+    user_id = db_.Column(db_.Integer, nullable=False)
+    user_name = db_.Column(db_.String(20), nullable=False)
+    span_page = db_.Column(db_.Integer, nullable=False)
+    span_left = db_.Column(db_.Float, nullable=False)
+    span_top = db_.Column(db_.Float, nullable=False)
+    created = db_.Column(db_.DATETIME, default=datetime.now, nullable=False)
 
     def __repr__(self):
         return "comment('{}', '{}','{}','{}','{}','{}','{}','{}','{}')".format(

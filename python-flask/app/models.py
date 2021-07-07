@@ -1,4 +1,4 @@
-from app import app, db, login_manager
+from app import app_, db_, login_manager
 
 
 @login_manager.user_loader

@@ -3,3 +3,4 @@ __init__.pyc
 commentshare.db
 .env
 mysql/db/*
+.idea

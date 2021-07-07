@@ -6,14 +6,18 @@ from flask_login import LoginManager
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-app = Flask(__name__)
-bootstrap = Bootstrap(app)
-app.config.from_object('app.config.Config')
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-db.create_all()
-login_manager = LoginManager(app)
+app_ = Flask(__name__)
+bootstrap = Bootstrap(app_)
+app_.config.from_object('app.config.Config')
+db_ = SQLAlchemy(app_)
+# db_.init_app(app_)
+# db_.create_all()
+bcrypt = Bcrypt(app_)
+login_manager = LoginManager(app_)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
+import app.db_init
 import app.routes
+import app.models
+import app.views
