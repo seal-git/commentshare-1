@@ -1,0 +1,26 @@
+
+/* Copyright(C) 2009 web design lab (https://www.webdlab.com/) Licensed under the MIT License http://www.opensource.org/licenses/mit-license.php */
+html,body,address,h1,h2,h3,h4,h5,h6,dl,dt,dd,ol,ul,li,div,p,pre,blockquote,hr,bdo,span,a,small,b,i,em,strong,br,del,ins,abbr,dfn,sub,sup,q,cite,code,var,kbd,samp,map,area,iframe,img,table,tr,th,td,caption,thead,tfoot,tbody,colgroup,col,form,label,fieldset,legend,input,textarea,select,option,optgroup,button,command,details,menu,summary,article,aside,header,footer,nav,section,figcaption,figure,main,mark,rp,rt,ruby,time,wbr,audio,canvas,embed,object,param,source,video,datalist,keygen,meter,output,progress {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    font-weight: normal;
+    vertical-align: baseline;
+    background: transparent;
+    box-sizing: border-box;
+  }
+  html {
+    overflow-y: scroll;/*Firefox用縦スクロールバー*/
+  }
+  html,body {
+    height: 100%;
+  }
+  body {
+    line-height: 1.6;
+    font-family: "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+  

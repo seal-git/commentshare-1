@@ -10,13 +10,11 @@ services:
     - "10100:5000"
     volumes:
     - ./python-flask:/workspace
-    - /etc/group:/etc/group:ro #read only
-    - /etc/passwd:/etc/passwd:ro #read only
+#    - /etc/group:/etc/group:ro #read only
+#    - /etc/passwd:/etc/passwd:ro #read only
     tty: true
-    networks:
-      - my-network
 
-  sql:
+  mysql:
     image: mysql
     container_name: mysql
     build:
@@ -44,10 +42,5 @@ services:
     command:
       --secure-file-priv="/docker-entrypoint-initdb.d"
     tty: true
-    networks:
-      - my-network
-
-networks:
-    my-network:
-#        external: true
-        driver: bridge
+    cap_add:
+      - SYS_NICE

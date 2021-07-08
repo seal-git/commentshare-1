@@ -9,7 +9,8 @@ class User(db_.Model, UserMixin):
     username = db_.Column(db_.String(20), unique=True, nullable=False)
     email = db_.Column(db_.String(120), unique=True, nullable=False)
     password = db_.Column(db_.String(60), nullable=False)
-    profile = db_.Column(db_.String(400), nullable=False, default='なし')
+    profile = db_.Column(db_.String(400), server_default='no data!',
+                         nullable=False)
 
     def __repr__(self):
         return "User('{}', '{}','{}','{}')".format(self.id, self.username,
@@ -18,7 +19,7 @@ class User(db_.Model, UserMixin):
 
 class PDF(db_.Model):
     __tablename__ = 'PDF'
-    id = db_.Column(db_.Integer, primary_key=True)
+    id = db_.Column(db_.String(16), primary_key=True)
     pdfname = db_.Column(db_.String(50), nullable=False)
     user_id = db_.Column(db_.Integer, nullable=False)
     created = db_.Column('created', db_.DATETIME, default=datetime.now,

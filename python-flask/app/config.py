@@ -8,5 +8,6 @@ class AppConfig:
     SQLALCHEMY_DATABASE_URI = (
         f"mysql+mysqlconnector://{user}:{password}@mysql:3306/my_db"
                                )
+    SQLALCHEMY_ECHO = True
 
 Config = AppConfig
