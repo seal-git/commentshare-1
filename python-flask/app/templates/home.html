@@ -5,7 +5,7 @@
     <div class="pdf-list-area">
 	    <h1>最近追加されたPDF</h1>
 	    {% for pdf in pdfs %}
-	        <li><a href=# class='pdf-list' pdf-id={{pdf.id}}.pdf>
+	        <li><a href=# class='pdf-list' pdf-file={{pdf.filename}}>
 	         {%print(pdf.pdfname)%}
 	        </a></li>
 	    {% endfor %}
@@ -24,8 +24,8 @@ const URLJoin = (...args) =>
 
 
 window.onload = $('.pdf-list').on('click', function(){
-    var id =  $(this).attr("pdf-id");
-    window.location.href = URLJoin('/read_pdf','?file=../static/pdf_uploads/',id)
+    var pdf_file =  $(this).attr("pdf-file");
+    window.location.href = URLJoin('/read_pdf','?file='+pdf_file)
 });
 </script>
 

@@ -21,14 +21,17 @@ class PDF(db_.Model):
     __tablename__ = 'PDF'
     id = db_.Column(db_.String(16), primary_key=True)
     pdfname = db_.Column(db_.String(50), nullable=False)
+    filename = db_.Column(db_.String(100), nullable=False,)
     user_id = db_.Column(db_.Integer, nullable=False)
     created = db_.Column('created', db_.DATETIME, default=datetime.now,
                         nullable=False)
     permission = db_.Column(db_.Integer, default=1)
 
     def __repr__(self):
-        return "PDF('{}', '{}','{}','{}','{}')".format(self.id, self.pdfname,
+        return "PDF('{}', '{}','{}','{}','{}')".format(self.id,
+                                                       self.pdfname,
                                                        self.user_id,
+                                                       self.filename,
                                                        self.created,
                                                        self.permission)
 

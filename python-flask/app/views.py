@@ -77,7 +77,7 @@ def account():
 
 
 
-@app_.route('/pdf_uploads',methods=['GET', 'POST'])
+@app_.route('/upload',methods=['GET', 'POST'])
 @login_required
 def upload():
     if request.method == 'POST':
@@ -102,7 +102,7 @@ def upload():
             return redirect(request.url)
         else:
             flash('pdfファイルであることを確認してください。','danger')
-    return render_template('pdf_uploads.html', title='Account page')
+    return render_template('upload.html', title='Account page')
 
 
 
@@ -134,13 +134,9 @@ def read_pdf():
     #print(is_login)
     #pdf_idの取得
     if request.method == 'GET':
-        pdf_id=request.args.get('file','')
-        if pdf_id != '':
-            pdf_id=pdf_id.split('/')
-            pdf_id=pdf_id[-1]
-            pdf_id=pdf_id.split('.')
-            pdf_id=int(pdf_id[0])
-            pdf_id=json.dumps(pdf_id)
+        pdf_id=request.args.get('pdf_id','')
+
+    print('get:id is ',pdf_id)
     return render_template('viewer.html', title='pdf page',pdf_id=pdf_id,is_login=is_login)
 
 @app_.route('/add_comment', methods=['POST','GET'])
@@ -284,6 +280,7 @@ def user_mypage():
     usr_id=2
     user = db_.session.query(User).filter_by(id=usr_id).one()
     print(user.profile)
-    pdf_list=db_.session.query(Comment.user_id ,PDF.pdfname,PDF.id,Comment.created).filter_by(user_id=usr_id).join(PDF,Comment.pdf_id==PDF.id).order_by(Comment.created.desc()).group_by(PDF.pdfname).limit(3).all()
+    pdf_list=db_.session.query(Comment.user_id ,PDF.pdfname,PDF.filename,
+                               Comment.created).filter_by(user_id=usr_id).join(PDF,Comment.pdf_id==PDF.id).order_by(Comment.created.desc()).group_by(PDF.pdfname).limit(3).all()
     print(pdf_list)
-    return render_template('usr_mypage.html', title='User Mypage',user=user,pdf=pdf_list)
+    return render_template('user_mypage.html', title='User Mypage',user=user,pdf=pdf_list)

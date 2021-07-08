@@ -1,0 +1,237 @@
+{% extends "layout.html" %}
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+<div class='page_header' >
+<div class="resizeimage1">
+    <img src='../static/images/testbanner.png' style="margin-top: 0px">
+</div>
+<div class="user_image">
+    <img src='../static/images/user.png' style="margin-top: 0px">
+</div>
+
+<div class="user_info">
+<div class='good_image'>
+<img src='../static/images/good_icon.png' class='good_icon' style="margin-top: 0px">
+</div>
+</div>
+
+<div class="mail">
+    <img src='../static/images/mail_icon.png' class='mail_icon' style="margin-top: 10px">
+</div>
+</div>
+
+<div class='user_name'>
+    <h1 class='user_name'>{{ user.username }}</h1>
+</div>
+<hr style="margin-top:55px ; height:5px; background-color:#d3d3d3;">
+<div class="profile_div">
+    <h3 class="profile">プロフィール</h3>
+    <textarea disabled class='text_profile' rows="10" cols="60" 　 maxlength="390">{{user.profile}}</textarea>
+</div>
+<div class='comment-pdf'>
+    <h2 class='t_pdf'>最近コメントをした論文</h2>
+<ul>
+    {% for pdf_ in pdf %}
+        <li><a href=# class='pdf-list' pdf-file={{pdf_[2]}}.pdf><font
+                color="#006600">
+         {%print(pdf_[1])%}
+        </font></a></li>
+    {% endfor %}
+</ul>
+</div>
+<div>    
+<h2 class='pie_title'>コメントを付けた論文</h2>
+<div class="chart-container" style="position: relative; height:20vh; width:40vw">
+<canvas id="mycanvas"></canvas>
+</div>
+</div>
+
+  
+<h2 class='bar_title'>獲得したgood数</h2>
+<div class="bar-container" style="position: relative; height:20vh; width:40vw">
+<canvas id="barcanvas"></canvas>
+</div>
+
+
+
+
+
+
+<style>
+    .text_profile{
+        font-size: 2vm;
+    }
+    .bar_title{
+        padding-top:3vh;
+        padding-left:9vw ;
+    }
+    .bar-container{
+        padding-top: 7vh;
+        padding-left: 9vw;
+    }
+    .chart-container{
+        margin-bottom: 20vh;
+
+    }
+
+    .pie_title{
+        font-size:2.5vw;
+        margin-left:4vw;
+    }
+    .page_header{
+        clear: both;
+        margin: 0em;
+        height: 25vw;
+    }
+    .my_page_top{
+    position: relative;
+    }
+    .resizeimage1 img{
+    width:100%;
+    padding-top: 0em;
+    margin-top: 0em;
+
+    }
+
+.user_image img{ 
+        width:20vw;
+        height:20vw; 
+        position: absolute;
+        top: 13%;
+        left: 15%;
+    }
+
+.good_icon{
+    widows:8vw;
+    height:8vw; 
+}
+
+.good_mage,
+.good_num{
+    display: inline-block;
+    font-size: 32px;
+    padding-top: 40px;
+}
+
+
+
+.user_info{
+    font-size: 32px;
+    position: absolute;
+    left: 80%;
+}
+
+.mail_icon{
+    width:6vw;
+    height:6vw; 
+    position: absolute;
+    left: 90%;
+}
+.content {
+    padding-top: 0px; 
+}
+
+.user_name{
+    position: absolute;
+    left: 22%;
+    }
+
+.profile_p{
+    font-size: 2vw;
+    padding-left:8vw;
+}
+
+.profile_div{
+    margin-bottom: 10vh;
+    padding-left: 4vw;
+}
+
+ul li, ol li {
+  color: #404040;
+  border-left: solid 8px #1fa67a;/*左側の線*/
+  border-bottom: solid 1px #dadada;/*下に灰色線*/
+  border-top: solid 1px #dadada;
+  background: white;
+  margin-bottom: 5px;/*下のバーとの余白*/
+  line-height: 1.5;
+  padding: 10px;
+  list-style-type: none!important;/*ポチ消す*/
+  font-weight: bold;
+}
+
+.comment-pdf{
+    padding-left: 0vw;
+    padding-right: 10vw;
+    margin-bottom: 7vh;
+
+}
+
+.t_pdf{
+    font-size: 2vw;
+    padding-left:3vw;
+}
+
+</style>
+
+<script>
+
+const URLJoin = (...args) =>
+  args
+    .join('/')
+    .replace(/[\/]+/g, '/')
+    .replace(/^(.+):\//, '$1://')
+    .replace(/^file:/, 'file:/')
+    .replace(/\/(\?|&|#[^!])/g, '$1')
+    .replace(/\?/g, '&')
+    .replace('&', '?');
+
+
+window.onload = $('.pdf-list').on('click', function(){
+    var file =  $(this).attr("pdf-file");
+    
+    window.location.href = URLJoin('/read_pdf','?file='+file)
+});
+    
+var document_data = [
+　　{
+　　　　value: 85,
+　　　　color:"#F7464A",
+　　　　highlight: "#FF5A5E",
+　　　　label: "自然言語処理"
+　　},
+　　{
+　　　　value: 30,
+　　　　color: "#46BFBD",
+　　　　highlight: "#5AD3D1",
+　　　　label: "深層学習"
+　　},
+　　{
+　　　　value: 42,
+　　　　color: "#FDB45C",
+　　　　highlight: "#FFC870",
+　　　　label: "構文解析"
+　　}
+];
+
+	
+var myChart = new Chart(document.getElementById("mycanvas").getContext("2d")).Doughnut(document_data,{responsive:true});
+
+var data = {
+labels: ["5月","6月","7月"],//X軸のラベル
+datasets: [
+{
+label: "My First dataset",//項目名
+fillColor: "rgba(220,220,220,0.5)",//塗りつぶす色
+strokeColor: "rgba(220,220,220,0.8)",//枠線の色
+highlightFill: "rgba(255,0,0,0.75)",//マウスオーバー時塗りつぶす色
+highlightStroke: "rgba(220,220,220,1)",//マウスオーバー時枠線の色
+data: [65, 59, 80]//値
+},
+]
+};
+var myChart = new Chart(document.getElementById("barcanvas").getContext("2d")).Bar(data,{responsive:true});
+
+    
+
+</script>
+{% endblock content %}

@@ -10,7 +10,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-UPLOAD_FOLDER = './python-flask/static/pdf_uploads'
+UPLOAD_FOLDER = './python-flask/static/pdf_files'
 app_.config["ALLOWED_EXTENSIONS"] = "PDF"
 engine = create_engine('sqlite:///python-flask.db_')
 Session = sessionmaker(bind=engine)

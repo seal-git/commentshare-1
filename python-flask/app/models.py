@@ -1,4 +1,6 @@
 from app import app_, db_, login_manager
+from app.db_define import User
+
 
 
 @login_manager.user_loader

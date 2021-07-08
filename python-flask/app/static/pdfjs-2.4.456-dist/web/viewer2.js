@@ -3492,7 +3492,7 @@ const defaultOptions = {
   },
   defaultUrl: {
     // value: "../static/pdfjs-2.4.456-dist/web/compressed.tracemonkey-pldi-09.pdf",
-    value: "naist_exam.pdf",
+    value: "id_naist_exam.pdf",
     kind: OptionKind.VIEWER
   },
   defaultZoomValue: {

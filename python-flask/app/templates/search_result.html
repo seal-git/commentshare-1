@@ -5,7 +5,8 @@
 <center><h4>{%print(len_pdfs)%}件見つかりました。</h4></center>
     <ul>
     {% for pdf in pdfs %}
-        <li><a href=# class='pdf-list' pdf-id={{pdf.id}}.pdf><font color="#006600">
+        <li><a href=# class='pdf-list' pdf-file={{pdf.filename}}.pdf><font
+                color="#006600">
          {%print(pdf.pdfname)%}
         </font></a></li>
     {% endfor %}
@@ -23,8 +24,8 @@ const URLJoin = (...args) =>
 
 
 window.onload = $('.pdf-list').on('click', function(){
-    var id =  $(this).attr("pdf-id");
-    window.location.href = URLJoin('/read_pdf','?file=../pdf_uploads/',id)
+    var filename =  $(this).attr("pdf-file");
+    window.location.href = URLJoin('/read_pdf','?file='+filename)
 });
 </script>
 

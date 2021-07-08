@@ -3,7 +3,8 @@
  <center><h2>{{ current_user.username }}さんのアップロードしたファイル</h2></center>  
     <ul>
     {% for pdf in pdfs %}
-        <li><a href=# class='pdf-list' pdf-id={{pdf.id}}.pdf><font color="#006600">
+        <li><a href=# class='pdf-list' pdf-file={{pdf.filename}}.pdf><font
+                color="#006600">
          {%print(pdf.pdfname)%}
         </font></a></li>
     {% endfor %}
@@ -36,7 +37,7 @@ const URLJoin = (...args) =>
 window.onload = $('.pdf-list').on('click', function(){
     var id =  $(this).attr("pdf-id");
     
-    window.location.href = URLJoin('/read_pdf','?file=../static/pdf_uploads/',id)
+    window.location.href = URLJoin('/read_pdf','?file=../static/pdf_files/',id)
     
 });
 </script>
