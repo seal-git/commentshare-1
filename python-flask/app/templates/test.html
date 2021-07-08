@@ -1,0 +1,67 @@
+{% extends "layout.html" %}  
+{% block content %}  
+ <center>
+</center>
+
+  
+<script>
+var length ={{length|tojson}};
+var pdf_list={{pdf_list|tojson}};
+document.write(pdf_list);
+if (length > 0){
+  document.getElementById("delete").style.display='block';
+}else{
+  document.getElementById("delete").style.display='none';
+}
+const URLJoin = (...args) =>
+  args
+    .join('/')
+    .replace(/[\/]+/g, '/')
+    .replace(/^(.+):\//, '$1://')
+    .replace(/^file:/, 'file:/')
+    .replace(/\/(\?|&|#[^!])/g, '$1')
+    .replace(/\?/g, '&')
+    .replace('&', '?');
+
+
+window.onload = $('.pdf-list').on('click', function(){
+    var id =  $(this).attr("pdf-id");
+    
+    window.location.href = URLJoin('/read_pdf','?file=../static/pdf_files/',id)
+    
+});
+</script>
+
+
+<style>
+    ul {
+  padding: 0;
+}
+h2{
+    font-size: 23px;
+    margin-bottom:30px;
+}
+body{
+    background-color:whitesmoke;
+}
+
+ul li, ol li {
+  color: #404040;
+  border-left: solid 8px #1fa67a;/*左側の線*/
+  border-bottom: solid 2px #dadada;/*下に灰色線*/
+  border-top: solid 2px #dadada;
+  background: whitesmoke;
+  margin-bottom: 5px;/*下のバーとの余白*/
+  line-height: 1.5;
+  padding: 10px;
+  list-style-type: none!important;/*ポチ消す*/
+  font-weight: bold;
+}
+
+button{
+  margin-top: 80px;
+}
+</style>
+     
+  
+{% endblock content %}
