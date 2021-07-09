@@ -7,11 +7,11 @@ services:
       context: ./Dockerfiles
       dockerfile: Dockerfile-python-flask
     ports:
-    - "10100:5000"
+      - "10100:5000"
     volumes:
-    - ./python-flask:/workspace
-#    - /etc/group:/etc/group:ro #read only
-#    - /etc/passwd:/etc/passwd:ro #read only
+      - ./python-flask:/workspace
+    #    - /etc/group:/etc/group:ro #read only
+    #    - /etc/passwd:/etc/passwd:ro #read only
     tty: true
 
   mysql:
@@ -25,8 +25,8 @@ services:
     env_file:
       - .env
     environment:
-#      MYSQL_USER: sample_user #新たにユーザーを作成する
-#      MYSQL_DATABASE: sample_db #新たにDBを作成する
+      #      MYSQL_USER: sample_user #新たにユーザーを作成する
+      #      MYSQL_DATABASE: sample_db #新たにDBを作成する
       TZ: "Asia/Tokyo"
       BIND-ADDRESS: 0.0.0.0
     expose:
@@ -46,22 +46,22 @@ services:
       - SYS_NICE
 
   https-portal:
-      image: steveltn/https-portal:1
-      container_name: https
-      ports:
-        - '80:80'
-        - '443:443'
-      environment:
-        DOMAINS: 'commentshare.work -> python-flask:5000'
-#        STAGE: 'local'
-#        STAGE: 'staging'
-         STAGE: 'production'
-#          Don't use production until staging works
-#         FORCE_RENEW: 'true
-      restart: on-failure
-      volumes:
-        - https-portal-data:/var/lib/https-portal
+    image: steveltn/https-portal:1
+    container_name: https
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      DOMAINS: 'commentshare.work -> python-flask:5000'
+      # STAGE: 'local'
+      # STAGE: 'staging'
+      STAGE: 'production'
+      # Don't use production until staging works
+      # FORCE_RENEW: 'true
+    restart: on-failure
+    volumes:
+      - https-portal-data:/var/lib/https-portal
 
 volumes:
-    mysql-data:
-    https-portal-data:
+  mysql-data:
+  https-portal-data:
