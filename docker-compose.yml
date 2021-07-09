@@ -38,9 +38,28 @@ services:
       # 初期データを投入するSQLが格納されているdir
       - ./mysql/initdb.d:/docker-entrypoint-initdb.d
       # 永続化するときにマウントするdir(ホスト側は空のディレクトリをマウントしないと初期データは登録されない！)
-      - ./mysql/db:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     command:
       --secure-file-priv="/docker-entrypoint-initdb.d"
     tty: true
     cap_add:
       - SYS_NICE
+
+  https-portal:
+      image: steveltn/https-portal:1
+      container_name: https
+      ports:
+        - '80:80'
+        - '443:443'
+      environment:
+        DOMAINS: 'localhost -> python-flask:5000'
+        STAGE: 'local'
+        # STAGE: 'production' # Don't use production until staging works
+        # FORCE_RENEW: 'true
+      restart: on-failure
+      volumes:
+        - https-portal-data:/var/lib/https-portal
+
+volumes:
+    mysql-data:
+    https-portal-data:

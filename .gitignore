@@ -2,3 +2,8 @@
 .project
 .pydevproject
 .Dockerfile.swp
+__pycache__
+__init__.pyc
+*.db
+.env
+mysql/db/*

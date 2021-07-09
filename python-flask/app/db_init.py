@@ -3,7 +3,7 @@ from app import db_
 from app.db_define import *
 import bcrypt
 
-init_all = True  # dbの定義を変更した場合はTrueにして作り直す
+init_all = False  # dbの定義を変更した場合はTrueにして作り直す
 if init_all:
     db_.drop_all() # dbを作り直す．dbを消したくない場合は注意．
 

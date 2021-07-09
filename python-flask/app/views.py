@@ -131,13 +131,18 @@ def read_pdf():
         is_login=1
     else:
         is_login=0
-    #print(is_login)
-    #pdf_idの取得
+    # print(is_login)
+    # pdf_idの取得
     if request.method == 'GET':
-        pdf_id=request.args.get('pdf_id','')
+        pdf_id=request.args.get('file','')
 
-    print('get:id is ',pdf_id)
-    return render_template('viewer.html', title='pdf page',pdf_id=pdf_id,is_login=is_login)
+    pdf_id = pdf_id.replace('static/pdf_files/', '')
+    pdf_id = pdf_id.replace('.pdf', '')
+    print('get: ',pdf_id)
+    return render_template('viewer.html',
+                           title='pdf page',
+                           pdf_id=pdf_id,
+                           is_login=is_login)
 
 @app_.route('/add_comment', methods=['POST','GET'])
 def add_comment():
