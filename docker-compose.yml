@@ -54,8 +54,8 @@ services:
       environment:
         DOMAINS: 'commentshare.work -> python-flask:5000'
 #        STAGE: 'local'
-        STAGE: 'staging'
-        # STAGE: 'production' # Don't use production until staging works
+#        STAGE: 'staging'
+         STAGE: 'production' # Don't use production until staging works
         # FORCE_RENEW: 'true
       restart: on-failure
       volumes:
