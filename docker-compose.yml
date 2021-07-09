@@ -56,9 +56,8 @@ services:
 #        STAGE: 'local'
 #        STAGE: 'staging'
          STAGE: 'production'
-         # Don't use production until staging works
-
-        # FORCE_RENEW: 'true
+#          Don't use production until staging works
+#         FORCE_RENEW: 'true
       restart: on-failure
       volumes:
         - https-portal-data:/var/lib/https-portal
