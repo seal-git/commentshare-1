@@ -55,7 +55,7 @@ services:
         DOMAINS: 'localhost -> python-flask:5000'
         STAGE: 'local'
         # STAGE: 'production' # Don't use production until staging works
-        # FORCE_RENEW: 'true
+        # FORCE_RENEW: 'true'
       restart: on-failure
       volumes:
         - https-portal-data:/var/lib/https-portal
