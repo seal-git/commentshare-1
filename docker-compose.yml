@@ -1,11 +1,11 @@
 version: '3'
 services:
   python:
-    image: python-flask
-    container_name: python-flask
+    image: flask
+    container_name: flask
     build:
       context: ./Dockerfiles
-      dockerfile: Dockerfile-python-flask
+      dockerfile: Dockerfile-flask
     ports:
     - "10100:5000"
     volumes:
@@ -13,6 +13,8 @@ services:
 #    - /etc/group:/etc/group:ro #read only
 #    - /etc/passwd:/etc/passwd:ro #read only
     tty: true
+    depends_on:
+      - mysql
 
   mysql:
     image: mysql
@@ -52,14 +54,15 @@ services:
         - '80:80'
         - '443:443'
       environment:
-        DOMAINS: 'localhost -> python-flask:5000'
+        DOMAINS: 'localhost -> flask:5000'
         STAGE: 'local'
         # STAGE: 'production' # Don't use production until staging works
         # FORCE_RENEW: 'true'
       restart: on-failure
       volumes:
         - https-portal-data:/var/lib/https-portal
-
+      depends_on:
+        - flask
 volumes:
     mysql-data:
     https-portal-data:
