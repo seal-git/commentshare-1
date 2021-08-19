@@ -1,0 +1,23 @@
+.comment-info{
+	display: flex;
+	justify-content: space-between;
+}
+.comment-user{
+	padding-right:12px;
+}
+.comment-value{
+	color:black;
+}
+.comment-favorite{
+	font-size:20px;
+	color:red;
+}
+.icon{
+	align:left;
+	width:20px;
+	height:20px;
+}
+.good_button{
+	width:20px;
+	height:20px;
+}

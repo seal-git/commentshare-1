@@ -9,7 +9,7 @@ services:
     ports:
     - "10100:5000"
     volumes:
-    - ./python-flask:/workspace
+    - ./flask:/workspace
 #    - /etc/group:/etc/group:ro #read only
 #    - /etc/passwd:/etc/passwd:ro #read only
     tty: true

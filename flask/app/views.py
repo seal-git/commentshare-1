@@ -168,7 +168,7 @@ def add_comment():
         db_.session.commit()
         #result_json = json.dumps(result)
         #print(type(result))
-        #filename = './python-flask/static/comments.txt'
+        #filename = './flask/static/comments.txt'
         #with open(filename, mode='a') as f:
 #             str_result = str(result).replace("[", "{")
 #             str_result = str(result).replace("]", "}")
