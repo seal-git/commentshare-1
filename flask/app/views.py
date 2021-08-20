@@ -12,6 +12,7 @@ from sqlalchemy.orm import sessionmaker
 from app.db_define import User
 from flask_login import login_user, current_user, logout_user, login_required
 
+
 @app_.route('/')
 def hello_world():
     return 'Hello, World!'
@@ -138,7 +139,7 @@ def read_pdf():
 
     pdf_id = pdf_id.replace('static/pdf_files/', '')
     pdf_id = pdf_id.replace('.pdf', '')
-    print('get: ',pdf_id)
+    print('-----get: ',pdf_id)
     return render_template('viewer.html',
                            title='pdf page',
                            pdf_id=pdf_id,

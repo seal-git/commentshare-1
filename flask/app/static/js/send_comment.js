@@ -123,6 +123,8 @@ window.onclick = function() {
 					"span-top" : node_top
 				}
 				var str_data = JSON.stringify(data);
+				console.log(str_data)
+				console.log(pdf_id)
 				//コメントの送信
 				$.ajax({
 					type: "post",

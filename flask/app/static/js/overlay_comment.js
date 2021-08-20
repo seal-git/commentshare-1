@@ -52,7 +52,7 @@ function get_comment(pdf_id){
 		console.log("comment rl", commentList);
 	});
 }
-var commentList = get_comment(pdf_id);
+let commentList = get_comment(pdf_id);
 
 
 //コメントリストをサーバーから読み込む
