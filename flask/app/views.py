@@ -10,12 +10,11 @@ from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.db_define import User
-from flask_login import login_user, current_user, logout_user, login_required
 
 
 @app_.route('/')
 def hello_world():
-    return 'Hello, World!'
+    return redirect(url_for('home'))
 
 
 @app_.route('/home')
@@ -127,12 +126,13 @@ def search():
 @app_.route('/read_pdf', methods=['POST','GET'])
 def read_pdf():
     #ログインしているかどうか
-    is_login=0
     if current_user.is_active:
-        is_login=1
+        is_login = 1
+        username = current_user.username
     else:
         is_login=0
-    # print(is_login)
+        username = "guest"
+    print(is_login)
     # pdf_idの取得
     if request.method == 'GET':
         pdf_id=request.args.get('file','')
@@ -143,7 +143,8 @@ def read_pdf():
     return render_template('viewer.html',
                            title='pdf page',
                            pdf_id=pdf_id,
-                           is_login=is_login)
+                           is_login=is_login,
+                           username=username)
 
 @app_.route('/add_comment', methods=['POST','GET'])
 def add_comment():
@@ -151,14 +152,19 @@ def add_comment():
     if request.method == 'POST':
         result = request.get_json()
         print(result)
-        result["name"] = current_user.username
+        if current_user.is_active:
+            user_id = current_user.id
+            username = current_user.username
+        else:
+            user_id = "-1"
+            username = "guest"
         # print(str(result))
         #print(result['value'])
         #print(result["pdf_id"])
         comment = Comment(
             value=result['value'],
-            user_id=current_user.id,
-            user_name=current_user.username,
+            user_id=user_id,
+            user_name=username,
             pdf_id=result['pdf_id'],
             span_page=result['span-page'],
             span_top=result['span-top'],

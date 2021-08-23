@@ -111,10 +111,9 @@ window.onclick = function() {
 				return(-1);
 			}else{
 				//コメントデータ形成
-				var value_url = toURL(document.getElementById("comment-input").value);
-				var now = new Date();
-				var data = {
-					"name" : "test_user",
+				let value_url = toURL(document.getElementById("comment-input").value);
+				let now = new Date();
+				let data = {
 					"time" : now.toISOString(),
 					"value" : value_url,
 					"pdf_id" : pdf_id,
