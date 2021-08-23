@@ -1,6 +1,6 @@
 version: '3'
 services:
-  python:
+  flask:
     image: flask
     container_name: flask
     build:
@@ -48,7 +48,7 @@ services:
     cap_add:
       - SYS_NICE
 
-  https-portal:
+  https:
       image: steveltn/https-portal:1
       container_name: https
       ports:
@@ -61,9 +61,9 @@ services:
         # FORCE_RENEW: 'true'
       restart: on-failure
       volumes:
-        - https-portal-data:/var/lib/https-portal
+        - https-data:/var/lib/https-portal
       depends_on:
         - flask
 volumes:
     mysql-data:
-    https-portal-data:
+    https-data:
