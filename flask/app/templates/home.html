@@ -5,13 +5,17 @@
     <div class="pdf-list-area">
 	    <h1>最近追加されたPDF</h1>
 	    {% for pdf in pdfs %}
-	        <li><a href=# class='pdf-list' pdf-file={{pdf.filename}}>
-	         {%print(pdf.pdfname)%}
+	        <li><a href=#
+                    class='pdf-list'
+                    pdf-url={{ pdf.url }}
+                    pdf-id={{ pdf.id }}>
+	         {%print(pdf.filename)%}
 	        </a></li>
 	    {% endfor %}
     </div>
 
 <script>
+//pdf-listクラスにリンクを追加
 const URLJoin = (...args) =>
   args
     .join('/')
@@ -22,10 +26,10 @@ const URLJoin = (...args) =>
     .replace(/\?/g, '&')
     .replace('&', '?');
 
-
 window.onload = $('.pdf-list').on('click', function(){
-    var pdf_file =  $(this).attr("pdf-file");
-    window.location.href = URLJoin('/read_pdf','?file='+pdf_file)
+    let pdf_url =  $(this).attr("pdf-url");
+    let pdf_id =  $(this).attr("pdf-id");
+    window.location.href = URLJoin('/read_pdf','?file='+pdf_url, '?id='+pdf_id)
 });
 </script>
 
