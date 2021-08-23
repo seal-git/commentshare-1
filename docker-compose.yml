@@ -63,7 +63,7 @@ services:
       # FORCE_RENEW: 'true
     restart: on-failure
     volumes:
-      - https-portal-data:/var/lib/https-portal
+      - https-data:/var/lib/https-portal
     depends_on:
       - flask
 volumes:
