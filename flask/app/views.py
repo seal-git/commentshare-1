@@ -180,7 +180,7 @@ def add_comment():
 #             str_result = str_result.replace("\\\\", "\\")
             #f.write(result_json+"\n")
 
-    return render_template('viewer.html', title='pdf page')
+    return "success"
 
 
 @app_.route('/mypage',methods=['POST','GET'])

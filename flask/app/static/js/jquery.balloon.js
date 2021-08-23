@@ -223,17 +223,17 @@
     		if($balloon){
 				var flag = false;
 				$balloon.on("mousemove", function(){
-					console.log("moving")
+					// console.log("moving")
 					flag = true;
 				}).on("mouseleave", function(){
 					flag = false;
-					console.log("hide1");
+					// console.log("hide1");
 	    			isValidTargetEvent($target, e) && $target.hideBalloon();
 				})
     		}
 			sethover = setTimeout(function(){
     			if(flag == false){
-    				console.log("hide2");
+    				// console.log("hide2");
         			isValidTargetEvent($target, e) && $target.hideBalloon();
     			}
     		}, 500);

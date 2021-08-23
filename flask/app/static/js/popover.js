@@ -1,11 +1,11 @@
 //吹き出しを表示する関数
 var popover = function(viewer, commentList){
 	var hover = $(":hover");	//カーソル上の要素を全て返す
-	console.log(hover)
+	// console.log(hover)
 	var tags = (Object.values(hover)).map(p => p.tagName)
 	var IndexOfSpan = tags.indexOf("SPAN")
 	// console.log(tags)
-	console.log(IndexOfSpan)
+	// console.log(IndexOfSpan)
 
 	if(IndexOfSpan>0){	//カーソルがspanを指していたら
 		hover[IndexOfSpan].onmousemove = function(){
@@ -20,8 +20,8 @@ var popover = function(viewer, commentList){
 			left = parseFloat(left, 10)/pageWidth*1000.0;
 			//要素のページ番号を取得
 			var page = hover[IndexOfSpan].parentNode.parentNode.dataset.pageNumber;
-			console.log(hover[IndexOfSpan].textContent);
-			console.log("left", left, "top", top, "page", page);
+			// console.log(hover[IndexOfSpan].textContent);
+			// console.log("left", left, "top", top, "page", page);
 
 			//カーソルの指すspanについているコメントのリストを返す
 			var target = commentList.filter(function(comment){
@@ -71,9 +71,9 @@ var popover = function(viewer, commentList){
 //		hover[IndexOfSpan].onmouseleave = function(){
 //				hover[IndexOfSpan].style.backgroundColor = "white"
 //		}
-		console.log("popover")
+// 		console.log("popover")
 	}else{
-		console.log("else")
+		// console.log("else")
 		highlight(viewer, commentList);
 	}
 }
@@ -96,11 +96,11 @@ function OnButtonClick(e){
 		return(-1);
 	}else{
 		//コメントデータ形成
-		var now = new Date();
-		var value_url = toURL(value);
-		var page = Number(e.target.parentElement.parentElement.dataset.page);
-		var top = Number(e.target.parentElement.parentElement.dataset.top);
-		var left = Number(e.target.parentElement.parentElement.dataset.left);
+		let now = new Date();
+		let value_url = toURL(value);
+		let page = Number(e.target.parentElement.parentElement.dataset.page);
+		let top = Number(e.target.parentElement.parentElement.dataset.top);
+		let left = Number(e.target.parentElement.parentElement.dataset.left);
 		console.log({"page":page, "left":left, "top":top})
 		console.log(value)
 		var data = {

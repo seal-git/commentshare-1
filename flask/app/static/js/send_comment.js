@@ -121,9 +121,8 @@ window.onclick = function() {
 					"span-left" : node_left,
 					"span-top" : node_top
 				}
-				var str_data = JSON.stringify(data);
+				let str_data = JSON.stringify(data);
 				console.log(str_data)
-				console.log(pdf_id)
 				//コメントの送信
 				$.ajax({
 					type: "post",
