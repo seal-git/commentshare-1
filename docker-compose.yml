@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile-flask
     restart: on-failure
     ports:
-      - "10100:5000"
+    - "10100:5000"
     volumes:
     - ./flask:/workspace
 #    - /etc/group:/etc/group:ro #read only
