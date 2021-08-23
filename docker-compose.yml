@@ -6,6 +6,7 @@ services:
     build:
       context: ./Dockerfiles
       dockerfile: Dockerfile-flask
+    restart: on-failure
     ports:
     - "10100:5000"
     volumes:

@@ -21,7 +21,8 @@ def hello_world():
 def home():
     print(request.remote_addr)
     pdfs = db_.session.query(PDF).order_by(PDF.created.desc()).limit(3).all() #最新のPDFを降順に3つ取得
-    print(pdfs)
+    print("---pdf---",pdfs)
+    print(pdfs[0].id, pdfs[0].filename)
     return render_template('home.html', pdfs=pdfs)
 
 
@@ -122,8 +123,7 @@ def search():
     return render_template('search.html', title='search_page')
 
 
-
-@app_.route('/read_pdf', methods=['POST','GET'])
+@app_.route('/read_pdf', methods=['GET'])
 def read_pdf():
     #ログインしているかどうか
     if current_user.is_active:
@@ -133,12 +133,9 @@ def read_pdf():
         is_login=0
         username = "guest"
     print(is_login)
-    # pdf_idの取得
-    if request.method == 'GET':
-        pdf_id=request.args.get('file','')
 
-    pdf_id = pdf_id.replace('static/pdf_files/', '')
-    pdf_id = pdf_id.replace('.pdf', '')
+    # pdf_idの取得
+    pdf_id = request.args.get('id')
     print('-----get: ',pdf_id)
     return render_template('viewer.html',
                            title='pdf page',

@@ -3491,7 +3491,7 @@ const defaultOptions = {
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE
   },
   defaultUrl: {
-    value: "../pdf_files/id_naist_exam.pdf",
+    value: "../pdf_files/naist_exam.pdf",
     kind: OptionKind.VIEWER
   },
   defaultZoomValue: {
