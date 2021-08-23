@@ -64,8 +64,8 @@ services:
     restart: on-failure
     volumes:
       - https-portal-data:/var/lib/https-portal
-      depends_on:
-        - flask
+    depends_on:
+      - flask
 volumes:
     mysql-data:
     https-portal-data:
