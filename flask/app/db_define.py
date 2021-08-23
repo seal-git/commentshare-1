@@ -5,7 +5,7 @@ from flask_login import UserMixin
 
 class User(db_.Model, UserMixin):
     __tablename__ = 'User'
-    id = db_.Column(db_.Integer, primary_key=True)
+    id = db_.Column(db_.Integer, primary_key=True, autoincrement=True)
     username = db_.Column(db_.String(20), unique=True, nullable=False)
     email = db_.Column(db_.String(120), unique=True, nullable=False)
     password = db_.Column(db_.String(60), nullable=False)
@@ -19,9 +19,9 @@ class User(db_.Model, UserMixin):
 
 class PDF(db_.Model):
     __tablename__ = 'PDF'
-    id = db_.Column(db_.String(16), primary_key=True)
-    pdfname = db_.Column(db_.String(50), nullable=False)
+    id = db_.Column(db_.Integer, primary_key=True, autoincrement=True)
     filename = db_.Column(db_.String(100), nullable=False,)
+    url = db_.Column(db_.String(100), nullable=False,)
     user_id = db_.Column(db_.Integer, nullable=False)
     created = db_.Column('created', db_.DATETIME, default=datetime.now,
                         nullable=False)
@@ -29,16 +29,16 @@ class PDF(db_.Model):
 
     def __repr__(self):
         return "PDF('{}', '{}','{}','{}','{}')".format(self.id,
-                                                       self.pdfname,
-                                                       self.user_id,
                                                        self.filename,
+                                                       self.url,
+                                                       self.user_id,
                                                        self.created,
                                                        self.permission)
 
 
 class Comment(db_.Model):
     __tablename__ = 'Comment'
-    id = db_.Column(db_.Integer, primary_key=True)
+    id = db_.Column(db_.Integer, primary_key=True, autoincrement=True)
     value = db_.Column(db_.String(400), nullable=False)
     pdf_id = db_.Column(db_.Integer, nullable=False, default=1)
     user_id = db_.Column(db_.Integer, nullable=False)

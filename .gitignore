@@ -7,3 +7,4 @@ __init__.pyc
 *.db
 .env
 mysql/db/*
+.DS_Store
