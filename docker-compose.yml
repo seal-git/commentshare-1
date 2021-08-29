@@ -17,6 +17,19 @@ services:
     depends_on:
       - mysql
 
+  react:
+    image: react
+    container_name: react
+    build:
+      context: ./Dockerfiles
+      dockerfile: Dockerfile-react
+    ports:
+    - "10000:3000"
+    restart: on-failure
+    volumes:
+    - ./react:/workspace
+    tty: true
+
   mysql:
     image: mysql
     container_name: mysql
@@ -55,7 +68,7 @@ services:
         - '80:80'
         - '443:443'
       environment:
-        DOMAINS: 'localhost -> flask:5000'
+        DOMAINS: 'localhost -> react:3000'
         STAGE: 'local'
         # STAGE: 'production' # Don't use production until staging works
         # FORCE_RENEW: 'true'
