@@ -1,5 +1,18 @@
 # author:Yuki Yoshinari
 
+## 使い方
+docker-compose.ymlのあるリポジトリで
+```
+docker-compose build
+docker-compose up -d
+```
+`flask` `react` `mysql` `https`コンテナ`がそれぞれ起動する。コンテナに入るには、
+```
+docker exec -it flask bash
+```
+localhost:80
+
+
 ## TO DO(フロントエンド)
 - ~~pxで定義しているのでブラウザごとに違う値で保存されてしまう~~
 - ~~すでにコメントが存在しているところは色を付けたい~~
