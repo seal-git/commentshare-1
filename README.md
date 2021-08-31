@@ -10,7 +10,7 @@ docker-compose up -d
 ```
 docker exec -it flask bash
 ```
-localhost:80
+localhost:80にアクセスすると実際の表示を見ることができる。ブラウザの警告が出るが無視して強制的に表示してok
 
 
 ## TO DO(フロントエンド)
